@@ -1,5 +1,6 @@
 solute = "solute.pdb"
 output = "solvated.pdb"
+max_iterations = 1000 # maximum number of attempts to re-insert each molecule before quitting
 
 [solute_lattice]
 shape = "hex" # "hex" or "square" solute lattice shape, corresponding to the MolPainter lattice

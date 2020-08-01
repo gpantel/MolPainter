@@ -5,9 +5,21 @@ import toml
 
 inputs = toml.load('input.toml')
 
-#@TODO: Exceptions for
-# 1) When the input file does not have the requied fields
-# 2) When you run out of lattice sites for insertions
+if 'solute' not in inputs: raise Exception('solute missing from input file')
+if 'output' not in inputs: raise Exception('output missing from input file')
+if 'max_iterations' not in inputs: raise Exception('max_iterations missing from input file')
+if 'shape' not in inputs['solute_lattice']: raise Exception('shape of solute_lattice missing from input file')
+if 'width' not in inputs['solute_lattice']: raise Exception('width of solute_lattice missing from input file')
+if 'height' not in inputs['solute_lattice']: raise Exception('height of solute_lattice missing from input file')
+if 'spacing' not in inputs['solute_lattice']: raise Exception('spacing of solute_lattice missing from input file')
+if 'spacing' not in inputs['solvent_lattice']: raise Exception('spacing of solvent_lattice missing from input file')
+if 'buffer' not in inputs['solvent_lattice']: raise Exception('buffer of solvent_lattice missing from input file')
+if 'lower_z_position' not in inputs['solvent_lattice']: raise Exception('lower_z_position of solvent_lattice missing from input file')
+if 'upper_z_position' not in inputs['solvent_lattice']: raise Exception('upper_z_position of solvent_lattice missing from input file')
+if 'paths' not in inputs['solvent_molecules']: raise Exception('paths list of solvent_molecules missing from input file')
+if 'numbers' not in inputs['solvent_molecules']: raise Exception('numbers list of solvent_molecules missing from input file')
+if len(inputs['solvent_molecules']['paths']) != len(inputs['solvent_molecules']['numbers']):
+    raise Exception('There should be an equal number of entries for paths and numbers of solent_molecules')
 
 # 1) Load the solute to be solvated into a universe
 u = mda.Universe(inputs['solute'])
@@ -146,14 +158,13 @@ def insert_to_random_empty_point2(path, solvent_lattice, solvent_molecule_id):
     empty_lattice_sites = np.delete(empty_lattice_sites, invalid_entries, axis=1)
 
     if len(empty_lattice_sites[0]) == 0:
-        print('LATTICE FULL!')
-        return
+        raise Exception('Lattice full!')
     else:
         # roll random number to determine cell to try to insert to
         randcol, randrow, randdep = assign_empty_lattice_site(empty_lattice_sites)
         # check surrounding cells to ensure they are also empty. If not, re-roll
         iteration = 0
-        while iteration < 10000:
+        while iteration < inputs['max_iterations']:
             iteration += 1
             choice_boolean = check_nearby_lattice_sites(n_range_x, n_range_y, n_range_z, randcol, randrow, randdep, solvent_lattice)
             if choice_boolean == True:
@@ -167,6 +178,8 @@ def insert_to_random_empty_point2(path, solvent_lattice, solvent_molecule_id):
                 break
             elif choice_boolean == False:
                 randcol, randrow, randdep = assign_empty_lattice_site(empty_lattice_sites)
+        if iteration == inputs['max_iterations']:
+            raise Exception('Lattice full!')
         return solvent_lattice
 
 # empty list to hold groups of solvents in order
@@ -175,6 +188,7 @@ for i in range(len(inputs['solvent_molecules']['paths'])):
     solvent_molecule_id = i+1
     path = inputs['solvent_molecules']['paths'][i]
     num_solvent = inputs['solvent_molecules']['numbers'][i]
+    print('Inserting %i molecules of '%(num_solvent) + path)
     solvent_universe = create_solvent_universe(path, solvent_molecule_id, num_solvent)
     for i in range(num_solvent):
         solvent_lattice = insert_to_random_empty_point2(path, solvent_lattice, solvent_molecule_id)
