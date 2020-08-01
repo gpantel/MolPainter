@@ -2,9 +2,9 @@ import setuptools
 
 setuptools.setup(
     name="MolPainter",
-    version="0.9.2",
+    version="0.9.3",
     description="Tool for drawing complex planar molecular systems of arbitrary composition and molecule placement",
-    url='',
+    url='https://github.com/gpantel/MolPainter',
     author='George Pantelopulos, Aaron Liberatore',
     license='MIT',
     classifiers=[
@@ -13,14 +13,15 @@ setuptools.setup(
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Topic :: Scientific/Engineering :: Chemistry',
     ],
-    packages=["MolPainter"],
+    packages=["MolPainter", "MolSolvator"],
     package_data={
         "": ['icons/*.png'],
     },
-    install_requires=['numpy', 'MDAnalysis'],
+    install_requires=['numpy', 'scipy', 'toml', 'MDAnalysis'],
     entry_points={
         'console_scripts': [
             'molpainter=MolPainter.painter:main',
+            'molsolvator=MolSolvator.MolSolvator:main',
         ],
     },
 )
