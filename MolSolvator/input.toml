@@ -1,6 +1,5 @@
 solute = "solute.pdb"
 output = "solvated.pdb"
-max_iterations = 1000 # maximum number of attempts to re-insert each molecule before quitting
 
 [solute_lattice]
 shape = "hex" # "hex" or "square" solute lattice shape, corresponding to the MolPainter lattice
@@ -17,3 +16,5 @@ upper_z_position = 72 # upper z-limit of the solvent lattice
 [solvent_molecules]
 paths = ['DPPC.pdb', 'W.pdb', 'WF.pdb'] # paths to pdb files of each solvent molecule
 numbers = [5, 2500, 250] # number of each molecule in paths to add
+max_iterations = 1000 # maximum number of attempts to re-insert each molecule before quitting
+rotate = true # true or false, randomly rotates solvent molecules in 3D
