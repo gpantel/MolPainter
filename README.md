@@ -10,9 +10,8 @@
   * [Installation](#installation)
     + [See it in action](#see-it-in-action)
 
-
 ## Introducing MolPainter and MolSolvator
-<h5>Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.</h5>
+##### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
 
 MolPainter is a novel graphical tool that enables users to specifically define the location of molecules in multi-layered, planar molecular systems. MolPainter achieves this by treating each plane of a hypothetical molecular system, defined by a z-axial position, as a two dimensional grids which serve as canvases. By associating molecular structures (in PDB format) to colors, these canvases can be painted to precisely define molecular environments.
 
@@ -34,10 +33,10 @@ MolSolvator, the sister program of MolPainter, is a command line tool that can r
 
 * Toolbox buttons
     - **Magnifying glass -** zooms out from the lattice view.
-    - **Magnifying glass -** zooms in on the lattice view.
-    - **Pencil** enables the pencil drawing tool. Click and hold to draw selected molecule/blend..
+    - **Magnifying glass +** zooms in on the lattice view.
+    - **Pencil** enables the pencil drawing tool. Click and hold to draw selected molecule/blend.
     - **Square** enables the square selection tool. Click position to start drawing a rectilinear shape, hold, move, and release at position to fill selected molecule/blend into the rectilinear shape. *Can also be used via a ctrl+click shortcut*
-    - **Spray can** sprays selected molecule/blend into an area. *Can also be used via a ctrl+click shortcut*
+    - **Spray can** sprays selected molecule/blend into an area. *Can also be used via a shift+click shortcut*
     - **Spray radius** adjust the radius of the spray can.
 
 ### Molecule palette
@@ -46,7 +45,7 @@ The molecule palette, located to the lower left of MolPainter, contains a list o
 When you want to paint with a molecule or blend in the palette, click on the radio button. You can *edit*, *copy*, or *delete* any molecule via a drop-down menu that appears when right-clicked.
 
 ### Layers
-The canvas layers to which molecules and blends are painted, created using *New Layer*, can be selected for painting by clicking on the corresponding layer button, which can be named. Layer names and z-axial positions can also be edited
+The canvas layers to which molecules and blends are painted, created using *New Layer*, can be selected for painting by clicking on the corresponding layer button, which can be named. Layer names and z-axial positions can also be edited via a drop-down menu that appears when the layer button is right-clicked.
 
 ### PDB files for molecules
 The conformation of the molecule in PDB files loaded to MolPainter are only translated or translated + rotated. Typically you would want to orient an input PDB file along the z-axis. The position that defines where the molecule will be translated into the layer grid (e.g. atoms defining the hydrophilic plane of a lipid bilayer) is defined by the tempfactor/b-factors column. Typically temperature/b-factors are set to 0, but if set to 1, MolPainter will use the center of geometry of all atoms set to 1 to define where the molecule will be placed once the painting is exported.
@@ -58,7 +57,7 @@ MolSolvator is a simple tool which adds solvent molecules, also defined by PDB f
 
 MolSolvator takes an *input* solute system (intended to be systems produced by MolPainter) defined within the approximate lower bounds of min(*x*), min(*y*) = 0, 0. It is to this solute system that solvent is *added*, such that no inserted solvent overlaps with with the solute or other solvent molecules.
 
-MolSolvator inserts solvent molecules into a grid which has a separate lattice spacing from the solute system. This *solvent lattice spacing* would typically be chosen as something slightly larger than the typical Lennard-Jones interaction minimum energy distance of the model. Each solvent molecule is inserted to the lattice centered on it's center of geometry. the minimum and maximum x, y, and z-dimensions of the molecule will mark neighboring cells as "occupied" if touching the center of other, neibboring cells. This typically would not prevent enough space between solvent molecules, so in addition to this a *buffer* length is added to the solvent dimensions to make sure there is enough space for the solvent molecules. Typically, the *bufffer* length should be shorter than the *solvent lattice spacing*.
+MolSolvator inserts solvent molecules into a grid which has a separate lattice spacing from the solute system. This *solvent lattice spacing* would typically be chosen as something slightly larger than the typical Lennard-Jones interaction minimum energy distance of the model. Each solvent molecule is inserted to the lattice centered on its center of geometry. The minimum and maximum x, y, and z-dimensions of the molecule will mark neighboring cells as "occupied" if touching the center of other neighboring cells. This typically would not prevent enough space between solvent molecules, so in addition to this a *buffer* length is added to the solvent dimensions to make sure there is enough space for the solvent molecules. Typically, the *bufffer* length should be shorter than the *solvent lattice spacing*.
 
 The input file that controls the i/o for MolSolvator is a TOML-format file. Each entry is explained here.
 
@@ -83,10 +82,9 @@ The input file that controls the i/o for MolSolvator is a TOML-format file. Each
 
 ## Installation
 
-Install locally via pip:
+Install locally via setup, for testing:
 ```
-python3 setup.py sdist bdist_wheel
-pip install dist/MolPainter-0.9.0-py3-none-any.whl
+python3 setup.py develop
 ```
 
 Run from the command line:
@@ -95,7 +93,7 @@ molpainter
 ```
 
 ```
-molsolvator -i input.tmol
+molsolvator -i input.toml
 ```
 
 ### See it in action
