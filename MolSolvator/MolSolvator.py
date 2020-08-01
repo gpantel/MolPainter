@@ -207,7 +207,7 @@ def insert_to_random_empty_point2(path, solvent_lattice, solvent_molecule_id):
             elif choice_boolean == False:
                 randcol, randrow, randdep = assign_empty_lattice_site(empty_lattice_sites)
         if iteration == inputs['solvent_molecules']['max_iterations']:
-            raise Exception('Lattice full!')
+            raise Exception('Failed to insert to lattice after max_interations!')
         return solvent_lattice, rotation_matrix
 
 solvent_groups = []
