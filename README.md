@@ -1,5 +1,15 @@
 # Table of Contents
-{:toc}
+- [Table of Contents](#table-of-contents)
+  * [Introducing MolPainter and MolSolvator](#introducing-molpainter-and-molsolvator)
+  * [MolPainter Usage](#molpainter-usage)
+    + [Buttons](#buttons)
+    + [Molecule palette](#molecule-palette)
+    + [Layers](#layers)
+    + [PDB files for molecules](#pdb-files-for-molecules)
+  * [MolSolvator Usage](#molsolvator-usage)
+  * [Installation](#installation)
+    + [See it in action](#see-it-in-action)
+
 
 ## Introducing MolPainter and MolSolvator
 <h5>Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.</h5>
