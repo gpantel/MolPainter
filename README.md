@@ -10,7 +10,7 @@ MolSolvator, the sister program of MolPainter, is a command line tool that can r
 
 
 
-## Usage
+## MolPainter Usage
 ### Buttons
 * Topbar buttons
     - **New** resets everything in MolPainter.
@@ -43,7 +43,35 @@ The conformation of the molecule in PDB files loaded to MolPainter are only tran
 
 For example, in a lipid bilayer, a user might select lipid ester oxygen atoms and cholesterol hydroxyl atoms to define a lipid leaflet, as these atom groups should be at approximatly the same z-axial position in a lipid bilayer.
 
-## Install
+## MolSolvator Usage
+MolSolvator is a simple tool which adds solvent molecules, also defined by PDB files, to 3D lattices whose bounds are defined *in terms* of the grids used to generate systems in MolPainter.
+
+MolSolvator takes an *input* solute system (intended to be systems produced by MolPainter) defined within the approximate lower bounds of min(*x*), min(*y*) = 0, 0. It is to this solute system that solvent is *added*, such that no inserted solvent overlaps with with the solute or other solvent molecules.
+
+MolSolvator inserts solvent molecules into a grid which has a separate lattice spacing from the solute system. This *solvent lattice spacing* would typically be chosen as something slightly larger than the typical Lennard-Jones interaction minimum energy distance of the model. Each solvent molecule is inserted to the lattice centered on it's center of geometry. the minimum and maximum x, y, and z-dimensions of the molecule will mark neighboring cells as "occupied" if touching the center of other, neibboring cells. This typically would not prevent enough space between solvent molecules, so in addition to this a *buffer* length is added to the solvent dimensions to make sure there is enough space for the solvent molecules. Typically, the *bufffer* length should be shorter than the *solvent lattice spacing*.
+
+The input file that controls the i/o for MolSolvator is a TOML-format file. Each entry is explained here.
+
+* Input/output files
+    - solute = *string*, the path to the input solute system.
+    - output = *string*, the path for the output solvated system.
+* Solute lattice
+    - shape = *string*, input solute is a "hex" or "square" lattice.
+    - width = *integer*, solute lattice width
+    - height = *integer*, solute lattice height
+    - spacing = *float*, solute lattice cell spacing, in angstroms
+* Solvent lattice
+    - spacing = *float*, solvent lattice cell spacing, in angstroms
+    - buffer = *float*, solvent buffer length, in angstroms
+    - lower_z_position = *float*, lower bonds of the solvent grid
+    - upper_z_position = *float*, upper bounds of the solvent grid
+* Solvent molecules
+    - paths = [*string*, ..., *string*], list of paths to files defining structure of solvents
+    - numbers = [*integer*, ..., *integer*], list of numbers of each solvent molecule to be inserted. Must be of the same length as *paths*.
+    - max_iterations = *integer*, maximum number of attempts to insert a solvent molecule to the lattice before aborting.
+    - rotate = *lower case boolean*, boolean to enable random 3D rotations of solvent molecules. ("true", not "True". "false", not "False")
+
+## Installation
 
 Install locally via pip:
 ```
@@ -59,11 +87,6 @@ molpainter
 ```
 molsolvator -i input.tmol
 ```
-
-## Usage
-
-
-
 
 ### See it in action
 
