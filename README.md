@@ -1,6 +1,9 @@
 # MolPainter
 ## Table of Contents
-{:toc}
+- [Introducing MolPainter and MolSolvator](#introducing-molpainter-and-molsolvator)
+- [MolPainter Usage](#molpainter-usage)
+- [MolSolvator Usage](#molsolvator-usage)
+- [Installation](#installation)
 
 ## Introducing MolPainter and MolSolvator
 ##### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
@@ -74,10 +77,9 @@ The input file that controls the i/o for MolSolvator is a TOML-format file. Each
 
 ## Installation
 
-Install locally via pip:
+Install locally via setup, for testing:
 ```
-python3 setup.py sdist bdist_wheel
-pip install dist/MolPainter-0.9.0-py3-none-any.whl
+python3 setup.py develop
 ```
 
 Run from the command line:
@@ -86,7 +88,7 @@ molpainter
 ```
 
 ```
-molsolvator -i input.tmol
+molsolvator -i input.toml
 ```
 
 ### See it in action
