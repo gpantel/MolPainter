@@ -1,0 +1,54 @@
+integrator               = md
+tinit                    = 0.0
+dt                       = 0.010
+nsteps                   = 300000 ; 3 ns
+
+nstxout                  = 0
+nstvout                  = 0
+nstfout                  = 0
+nstlog                   = 10000 ; log every 100 ps
+nstenergy                = 10000 ; energy every 100 ps
+nstxout-compressed       = 10000 ; xtc writing frequency 100 ps
+compressed-x-precision   = 1000
+
+cutoff-scheme            = Verlet
+nstlist                  = 20
+ns_type                  = grid
+pbc                      = xyz
+verlet-buffer-tolerance  = 1.1
+coulombtype              = reaction-field 
+rcoulomb                 = 1.1
+epsilon_r                = 15	; 2.5 (with polarizable water)
+epsilon_rf               = 0
+vdw_type                 = cutoff  
+vdw-modifier             = Potential-shift-verlet
+rvdw                     = 1.1
+DispCorr                 = No
+
+; Temperature coupling:
+tcoupl                   = berendsen
+tc-grps                  = memb solv
+tau_t                    = 2.0  2.0
+ref_t                    = 295 295
+
+; Pressure coupling:
+Pcoupl                   = berendsen
+Pcoupltype               = isotropic
+tau_p                    = 4.0    
+compressibility          = 3e-4 3e-4
+ref_p                    = 1.0  1.0   
+
+; GENERATE VELOCITIES FOR STARTUP RUN:
+gen_vel                  = no
+gen_temp                 = 295
+gen_seed                 = -1
+refcoord_scaling         = all
+
+; ANNEALING
+annealing                = single single 
+annealing-npoints        = 2 2
+annealing-time           = 0 2000 0 2000
+annealing-temp           = 200 295 200 295
+
+; constraints
+constraints              = none

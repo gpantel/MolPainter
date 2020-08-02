@@ -1,0 +1,30 @@
+integrator               = steep
+tinit                    = 0.0
+emtol                    = 50
+emstep                   = 0.01
+nsteps                   = 10000
+
+nstxout                  = 0
+nstvout                  = 0
+nstfout                  = 0
+nstlog                   = 100 ; log writing frequency
+nstenergy                = 100 ; energy writing frequency
+nstxtcout                = 100 ; xtc writing frequency
+compressed-x-precision   = 1000
+
+cutoff-scheme            = Verlet
+nstlist                  = 20
+ns_type                  = grid
+pbc                      = xyz
+verlet-buffer-tolerance  = 0.005
+coulombtype              = reaction-field 
+rcoulomb                 = 1.1
+epsilon_r                = 15	; 2.5 (with polarizable water)
+epsilon_rf               = 0
+vdw_type                 = cutoff  
+vdw-modifier             = Potential-shift-verlet
+rvdw                     = 1.1
+DispCorr                 = No
+
+refcoord_scaling         = all
+constraints              = none

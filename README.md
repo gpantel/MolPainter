@@ -80,6 +80,12 @@ The input file that controls the i/o for MolSolvator is a TOML-format file. Each
     - max_iterations = *integer*, maximum number of attempts to insert a solvent molecule to the lattice before aborting.
     - rotate = *lower case boolean*, boolean to enable random 3D rotations of solvent molecules. ("true", not "True". "false", not "False")
 
+In addition to the i/o file, MolSolvator has additional command line actions
+
+* Command line actions
+    - *-zeroz*, translates the system such that min(*z*) = solvent lattice spacing / 2, following solvation.
+    - *-centerc*, translates the system such that <x,y,z> = 0,0,0, following solvation.
+
 ## Installation
 
 Install locally via setup, for testing:
@@ -98,6 +104,6 @@ molsolvator -i input.toml
 
 ### Give it a try!
 
-A complete tutorial showin how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the `tutorial/` directory.
+A complete tutorial showing how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the `tutorial/` directory.
 
 

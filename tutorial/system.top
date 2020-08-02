@@ -1,0 +1,24 @@
+#include "martini_v2.2.itp"
+#include "martini_v2.0_lipids_all_201506.itp"
+#include "martini_v2.0_ions.itp"
+
+[ system ]
+; name
+MolPainter Tutorial
+
+[ molecules ]
+; name  number
+DPPC    205
+DIPC    205
+CHOL    102
+DPPC    205
+DIPC    205
+CHOL    102
+NA+      54
+CL-      54
+WF      501
+W      4511
+NA+      54
+CL-      54
+WF      501
+W      4511

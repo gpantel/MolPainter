@@ -6,13 +6,14 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Read in the TOML-format input file')
 parser.add_argument("-i", "--input", type=str, help='TOML-format input file')
+parser.add_argument("-centerc", action='store_true', help='Center system at (x,y,z) = (0,0,0) after solvation')
+parser.add_argument("-zeroz", action='store_true', help='Raise the system such that min(z) = solvent spacing / 2 after solvation')
 args = parser.parse_args()
 
 inputs = toml.load(args.input)
 
 if 'solute' not in inputs: raise Exception('solute missing from input file')
 if 'output' not in inputs: raise Exception('output missing from input file')
-
 if 'shape' not in inputs['solute_lattice']: raise Exception('shape of solute_lattice missing from input file')
 if 'width' not in inputs['solute_lattice']: raise Exception('width of solute_lattice missing from input file')
 if 'height' not in inputs['solute_lattice']: raise Exception('height of solute_lattice missing from input file')
@@ -58,7 +59,7 @@ for i in range(solvent_lattice_width):
         for k in range(solvent_lattice_depth):
             x = (i*solvent_lattice_spacing)-(solvent_lattice_spacing/2)
             y = (j*solvent_lattice_spacing)-(solvent_lattice_spacing/2)
-            z = (k*solvent_lattice_spacing)-(solvent_lattice_spacing/2)
+            z = (k*solvent_lattice_spacing)+solvent_z1
             solvent_lattice_xyz_coordinates[i][j][k] = np.array([x,y,z])
 
 # 5) Mark cells in the array as -1000 if molecules in the layers are within "lattice_spacing" distance of points
@@ -153,7 +154,7 @@ def assign_empty_lattice_site(empty_lattice_sites):
     randdep = empty_lattice_sites[2,randnum]
     return randcol, randrow, randdep
 
-def insert_to_random_empty_point2(path, solvent_lattice, solvent_molecule_id):
+def insert_to_random_empty_point(path, solvent_lattice, solvent_molecule_id):
     solvu = mda.Universe(path)
     solvxyz = solvu.atoms.positions
     solvcom = solvu.atoms.center_of_mass()
@@ -219,7 +220,7 @@ for i in range(len(inputs['solvent_molecules']['paths'])):
     solvent_universe = create_solvent_universe(path, solvent_molecule_id, num_solvent)
     rotation_matrices = []
     for i in range(num_solvent):
-        solvent_lattice, rotation_matrix = insert_to_random_empty_point2(path, solvent_lattice, solvent_molecule_id)
+        solvent_lattice, rotation_matrix = insert_to_random_empty_point(path, solvent_lattice, solvent_molecule_id)
         rotation_matrices.append(rand_rotation_matrix())
 
     solvent_universe.atoms.positions = assign_lattice_positions(path, solvent_lattice, solvent_molecule_id, rotation_matrices)
@@ -227,4 +228,22 @@ for i in range(len(inputs['solvent_molecules']['paths'])):
 
 all_solvent_universe = mda.Merge(*solvent_groups)
 full_universe = mda.Merge(u.atoms, all_solvent_universe.atoms)
+
+# translate output coordinates if flags are defined
+if args.centerc == True:
+    xyz = np.copy(full_universe.atoms.positions)
+    xyz[:,0] -= np.mean(xyz[:,0])
+    xyz[:,1] -= np.mean(xyz[:,1])
+    xyz[:,2] -= np.mean(xyz[:,2])
+    full_universe.atoms.positions = xyz
+if args.zeroz == True:
+    xyz = np.copy(full_universe.atoms.positions)
+    xyz[:,2] = (xyz[:,2] - np.amin(xyz[:,2])) + (solvent_lattice_spacing/2.)
+    full_universe.atoms.positions = xyz
+
+xedge = np.amax(full_universe.atoms.positions[:,0]) - np.amin(full_universe.atoms.positions[:,0]) + solvent_lattice_spacing/2.
+yedge = np.amax(full_universe.atoms.positions[:,1]) - np.amin(full_universe.atoms.positions[:,1]) + solvent_lattice_spacing/2.
+zedge = np.amax(full_universe.atoms.positions[:,2]) - np.amin(full_universe.atoms.positions[:,2]) + solvent_lattice_spacing/2.
+
+full_universe.dimensions = np.array([xedge, yedge, zedge, 90., 90., 90.])
 full_universe.atoms.write(inputs['output'], bonds=None)
