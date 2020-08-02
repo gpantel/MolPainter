@@ -1,0 +1,20 @@
+solute = "tutorial/solute+uppersolvent.pdb"
+output = "tutorial/solute+solvent.pdb"
+
+[solute_lattice]
+shape = "hex" # "hex" or "square" solute lattice shape, corresponding to the MolPainter lattice
+width = 32 # number of cells along x-axis
+height = 16 # number of cells along y-axis
+spacing = 8 # length of each cell in angstroms
+
+[solvent_lattice]
+spacing = 5.3 # length of each cell in angstroms
+buffer  = 5 # exclusionary distance for adding solvent to lattice in angstroms
+lower_z_position = -55 # lower z-limit of the solvent lattice
+upper_z_position = -16 # upper z-limit of the solvent lattice
+
+[solvent_molecules]
+paths = ['tutorial/PDBfiles/NA+.pdb', 'tutorial/PDBfiles/CL-.pdb', 'tutorial/PDBfiles/WF.pdb', 'tutorial/PDBfiles/W.pdb'] # paths to pdb files of each solvent molecule
+numbers = [54, 54, 501, 4511] # number of each molecule in paths to add
+max_iterations = 1000 # maximum number of attempts to re-insert each molecule before quitting
+rotate = false # true or false, randomly rotates solvent molecules in 3D

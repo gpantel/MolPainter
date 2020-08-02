@@ -56,7 +56,7 @@ class GridConfigurator(tk.Frame):
         try:
             int(self.widthvar.get())
             int(self.heightvar.get())
-            int(self.areavar.get())
+            int(self.spacingvar.get())
         except ValueError:
             self.lbl3["text"] = "Only numeric values can be used"
             return

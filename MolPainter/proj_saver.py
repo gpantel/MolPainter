@@ -147,7 +147,7 @@ class ProjSaver(tk.Frame):
             'settings' : {
                 'lattice_width' : self.project.lattice_width,
                 'lattice_height' : self.project.lattice_height,
-                'lattice_area' : self.project.lattice_area,
+                'lattice_spacing' : self.project.lattice_spacing,
                 'lattice_major_gridlines' : self.project.lattice_major_gridlines,
             },
             'molecules' : [],

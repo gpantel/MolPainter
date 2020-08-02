@@ -1,0 +1,13 @@
+ATOM      1  NC3 DIPC    1       4.850   5.700  24.550  1.00  0.00      MEMB N
+ATOM      2  PO4 DIPC    1       5.760   5.950  21.720  1.00  1.00      MEMB P
+ATOM      3  GL1 DIPC    1       4.850   5.540  18.260  1.00  0.00      MEMB G
+ATOM      4  GL2 DIPC    1       7.890   4.690  17.850  1.00  0.00      MEMB G
+ATOM      5  C1A DIPC    1       3.730   5.400  14.450  1.00  0.00      MEMB C
+ATOM      6  D2A DIPC    1       3.990   5.190  11.880  1.00  0.00      MEMB D
+ATOM      7  D3A DIPC    1       4.310   5.410   9.020  1.00  0.00      MEMB D
+ATOM      8  C4A DIPC    1       3.850   5.420   5.630  1.00  0.00      MEMB C
+ATOM      9  C1B DIPC    1       9.370   5.290  15.010  1.00  0.00      MEMB C
+ATOM     10  D2B DIPC    1       9.120   5.260  12.000  1.00  0.00      MEMB B
+ATOM     11  D3B DIPC    1       9.440   4.870   9.020  1.00  0.00      MEMB B
+ATOM     12  C4B DIPC    1       9.080   5.400   5.610  1.00  0.00      MEMB C
+END

@@ -82,7 +82,7 @@ class Exporter(tk.Frame):
             layers.append(self.constructionate_layer(self.project.layers[i]))
         layer = mda.Merge(*layers)
         # assign x and y dimensions to the box. The z-dimension will equal the smaller of the two.
-        self.lattice_spacing = np.sqrt(self.project.lattice_area)
+        self.lattice_spacing = self.project.lattice_spacing
         x = (self.project.lattice_width*self.lattice_spacing)
         y = (self.project.lattice_height*self.lattice_spacing)
         # add 1 more lattice_spacing to each dimensions -- if one dim. is longer, add more
@@ -185,7 +185,7 @@ class Exporter(tk.Frame):
         return np.dot(xyz,R)
 
     def map_lattice_to_xy_squares(self):
-        self.lattice_spacing = np.sqrt(self.project.lattice_area)
+        self.lattice_spacing = self.project.lattice_spacing
         lattice_xy_coordinates = []
         for i in range(self.project.lattice_height):
             lattice_xy_coordinates_row = []

@@ -108,7 +108,7 @@ class Commands:
             self.project.edit_lattice_params(
                 proj['settings']['lattice_width'],
                 proj['settings']['lattice_height'],
-                proj['settings']['lattice_area'],
+                proj['settings']['lattice_spacing'],
                 proj['settings']['lattice_major_gridlines']
                 )
             for mol in proj['molecules']:

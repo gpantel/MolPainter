@@ -1,0 +1,9 @@
+ATOM      1  ROH CHOL    1      25.887 150.511  68.245  1.00  1.00      MEMB O
+ATOM      2   R1 CHOL    1      25.301 149.750  65.582  1.00  0.00      MEMB P
+ATOM      3   R2 CHOL    1      23.997 151.414  63.810  1.00  0.00      MEMB P
+ATOM      4   R3 CHOL    1      26.160 150.916  62.249  1.00  0.00      MEMB P
+ATOM      5   R4 CHOL    1      23.921 151.155  60.367  1.00  0.00      MEMB P
+ATOM      6   R5 CHOL    1      25.321 149.489  60.514  1.00  0.00      MEMB P
+ATOM      7   C1 CHOL    1      25.914 150.533  56.896  1.00  0.00      MEMB C
+ATOM      8   C2 CHOL    1      27.898 150.663  53.508  1.00  0.00      MEMB C
+END
