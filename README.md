@@ -96,8 +96,8 @@ molpainter
 molsolvator -i input.toml
 ```
 
-### See it in action
+### Give it a try!
 
-A complete demo with molecule source files will be added in the `example/` directory.
+A complete tutorial showin how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the `tutorial/` directory.
 
 
