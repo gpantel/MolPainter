@@ -11,11 +11,11 @@ class LayerPainter(tk.Frame):
         self.master = master
         self.grid(column=0, row=0)
         
-        self.lattice_spacing = self.master.master.master.zoomvalues[self.master.master.master.zoom] # number of pixels defining width and height of lattice points in pixels
-        self.hardpad = 0 #int(self.lattice_spacing/2 )
+        self.virtual_spacing = self.master.master.master.zoomvalues[self.master.master.master.zoom] # number of pixels defining width and height of lattice points in pixels
+        self.hardpad = 0 #int(self.virtual_spacing/2 )
 
-        self.canvas = tk.Canvas(self, width=(self.lattice_width*self.lattice_spacing)+self.hardpad,\
-                        height=(self.lattice_height*self.lattice_spacing)+self.hardpad, borderwidth=0,\
+        self.canvas = tk.Canvas(self, width=(self.lattice_width*self.virtual_spacing)+self.hardpad,\
+                        height=(self.lattice_height*self.virtual_spacing)+self.hardpad, borderwidth=0,\
                         background="white", cursor="pencil")
         self.canvas.grid(column=0, row=0, padx=10, pady=10)
 
@@ -23,12 +23,12 @@ class LayerPainter(tk.Frame):
         # will get these from elsewhere
         self.lattice = np.array([[0 for _ in range(self.lattice_width)] for _ in range(self.lattice_height)])
         # make the image we will draw on
-        self.rectangles_image = tk.PhotoImage(master=self, width=(self.lattice_width*self.lattice_spacing)+self.hardpad,\
-                                                    height=(self.lattice_height*self.lattice_spacing)+self.hardpad)
+        self.rectangles_image = tk.PhotoImage(master=self, width=(self.lattice_width*self.virtual_spacing)+self.hardpad,\
+                                                    height=(self.lattice_height*self.virtual_spacing)+self.hardpad)
         # make the image all white, initially
         self.rectangles_image.put('white', to=(self.hardpad,self.hardpad,\
-                                 int((self.lattice_width*self.lattice_spacing)+self.hardpad),\
-                                 int((self.lattice_height*self.lattice_spacing)+self.hardpad)))
+                                 int((self.lattice_width*self.virtual_spacing)+self.hardpad),\
+                                 int((self.lattice_height*self.virtual_spacing)+self.hardpad)))
         # add the image to the canvas
         self.canvas.create_image(self.hardpad, self.hardpad, anchor="nw", image=self.rectangles_image)
 
@@ -74,16 +74,16 @@ class LayerPainter(tk.Frame):
         '''
         This function will redraw the layer image when called
         '''
-        self.lattice_spacing = self.master.master.master.zoomvalues[self.master.master.master.zoom]
-        self.canvas["width"] = (self.lattice_width*self.lattice_spacing)+self.hardpad
-        self.canvas["height"] = (self.lattice_height*self.lattice_spacing)+self.hardpad
-        self.rectangles_image["width"] = (self.lattice_width*self.lattice_spacing)+self.hardpad
-        self.rectangles_image["height"] = (self.lattice_height*self.lattice_spacing)+self.hardpad
+        self.virtual_spacing = self.master.master.master.zoomvalues[self.master.master.master.zoom]
+        self.canvas["width"] = (self.lattice_width*self.virtual_spacing)+self.hardpad
+        self.canvas["height"] = (self.lattice_height*self.virtual_spacing)+self.hardpad
+        self.rectangles_image["width"] = (self.lattice_width*self.virtual_spacing)+self.hardpad
+        self.rectangles_image["height"] = (self.lattice_height*self.virtual_spacing)+self.hardpad
         self.canvas.delete('grid_line')
         self.rectangles_image.blank()
         self.rectangles_image.put('white', to=(self.hardpad,self.hardpad,\
-                                 int((self.lattice_width*self.lattice_spacing)+self.hardpad),\
-                                 int((self.lattice_height*self.lattice_spacing)+self.hardpad)))
+                                 int((self.lattice_width*self.virtual_spacing)+self.hardpad),\
+                                 int((self.lattice_height*self.virtual_spacing)+self.hardpad)))
         
         for row in range(self.master.zlayer.lattice.shape[0]):
             for col in range(self.master.zlayer.lattice.shape[1]):
@@ -93,10 +93,10 @@ class LayerPainter(tk.Frame):
                     if mol.index == molid:
                         color = mol.color
                         break
-                self.rectangles_image.put(color, to=(int((col*self.lattice_spacing)),\
-                      int((row*self.lattice_spacing)),\
-                      int(((col+1)*self.lattice_spacing)),\
-                      int(((row+1)*self.lattice_spacing))))
+                self.rectangles_image.put(color, to=(int((col*self.virtual_spacing)),\
+                      int((row*self.virtual_spacing)),\
+                      int(((col+1)*self.virtual_spacing)),\
+                      int(((row+1)*self.virtual_spacing))))
         self.fine_gridlines()
         self.guiding_gridlines()
         # cursor update
@@ -104,24 +104,24 @@ class LayerPainter(tk.Frame):
 
     def fine_gridlines(self):
         for i in range(0, self.lattice_width):
-            # self.rectangles_image.put('black', to=((i*self.lattice_spacing), 0,\
-            #                             (i*self.lattice_spacing) + 1, (self.lattice_height*self.lattice_spacing)))
-            self.canvas.create_line([((i*self.lattice_spacing)+self.hardpad, 0),\
-                ((i*self.lattice_spacing)+self.hardpad, (self.lattice_height*self.lattice_spacing)+self.hardpad)], tag='grid_line', width=1)
+            # self.rectangles_image.put('black', to=((i*self.virtual_spacing), 0,\
+            #                             (i*self.virtual_spacing) + 1, (self.lattice_height*self.virtual_spacing)))
+            self.canvas.create_line([((i*self.virtual_spacing)+self.hardpad, 0),\
+                ((i*self.virtual_spacing)+self.hardpad, (self.lattice_height*self.virtual_spacing)+self.hardpad)], tag='grid_line', width=1)
         for i in range(0, self.lattice_height):
-            # self.rectangles_image.put('black', to=(0, (i*self.lattice_spacing),\
-            #                             (self.lattice_spacing*self.lattice_width), (i*self.lattice_spacing) + 1))
-            self.canvas.create_line([(0, (i*self.lattice_spacing)+self.hardpad),\
-                ((self.lattice_spacing*self.lattice_width)+self.hardpad, (i*self.lattice_spacing)+self.hardpad)], tag='grid_line', width=1)
+            # self.rectangles_image.put('black', to=(0, (i*self.virtual_spacing),\
+            #                             (self.virtual_spacing*self.lattice_width), (i*self.virtual_spacing) + 1))
+            self.canvas.create_line([(0, (i*self.virtual_spacing)+self.hardpad),\
+                ((self.virtual_spacing*self.lattice_width)+self.hardpad, (i*self.virtual_spacing)+self.hardpad)], tag='grid_line', width=1)
         return
 
     def guiding_gridlines(self):
         for i in range(0, self.lattice_width, self.lattice_major_gridlines_index):
-            self.canvas.create_line([((i*self.lattice_spacing)+self.hardpad, 0),\
-                ((i*self.lattice_spacing)+self.hardpad, (self.lattice_height*self.lattice_spacing)+self.hardpad)], tag='grid_line', width=2)
+            self.canvas.create_line([((i*self.virtual_spacing)+self.hardpad, 0),\
+                ((i*self.virtual_spacing)+self.hardpad, (self.lattice_height*self.virtual_spacing)+self.hardpad)], tag='grid_line', width=2)
         for i in range(0, self.lattice_height, self.lattice_major_gridlines_index):
-            self.canvas.create_line([(0, (i*self.lattice_spacing)+self.hardpad),\
-                ((self.lattice_spacing*self.lattice_width)+self.hardpad, (i*self.lattice_spacing)+self.hardpad)], tag='grid_line', width=2)
+            self.canvas.create_line([(0, (i*self.virtual_spacing)+self.hardpad),\
+                ((self.virtual_spacing*self.lattice_width)+self.hardpad, (i*self.virtual_spacing)+self.hardpad)], tag='grid_line', width=2)
         return
 
     def set_molecule(self, row, col):
@@ -131,10 +131,10 @@ class LayerPainter(tk.Frame):
         id, color = self.master.master.master.molecule.get_paint_props()
         if self.master.zlayer.lattice[row][col] != id:
             self.master.zlayer.lattice[row][col] = id
-            self.rectangles_image.put(color, to=(int((col*self.lattice_spacing)),\
-                                                int((row*self.lattice_spacing)),\
-                                                int(((col+1)*self.lattice_spacing)),\
-                                                int(((row+1)*self.lattice_spacing))))
+            self.rectangles_image.put(color, to=(int((col*self.virtual_spacing)),\
+                                                int((row*self.virtual_spacing)),\
+                                                int(((col+1)*self.virtual_spacing)),\
+                                                int(((row+1)*self.virtual_spacing))))
 
     def count_molecules(self):
         number_of_molecules_in_layer = np.count_nonzero(self.master.zlayer.lattice)
@@ -180,20 +180,20 @@ class LayerPainter(tk.Frame):
 
     def spraycan_on(self, event):
         self.canvas.config(cursor="spraycan")
-        spray_width = self.lattice_spacing*self.spray_index
+        spray_width = self.virtual_spacing*self.spray_index
 
         # within the square inscribed by minx, maxs...
         min_spray_x, max_spray_x = (event.x-self.hardpad)-spray_width, (event.x-self.hardpad)+spray_width
         min_spray_y, max_spray_y = (event.y-self.hardpad)-spray_width, (event.y-self.hardpad)+spray_width
         # spray paint all lattice points whose centers fall inside of spray_width from the click point
-        rows = range(int(min_spray_y//self.lattice_spacing),int(max_spray_y//self.lattice_spacing)+1)
-        cols = range(int(min_spray_x//self.lattice_spacing),int(max_spray_x//self.lattice_spacing)+1)
+        rows = range(int(min_spray_y//self.virtual_spacing),int(max_spray_y//self.virtual_spacing)+1)
+        cols = range(int(min_spray_x//self.virtual_spacing),int(max_spray_x//self.virtual_spacing)+1)
 
         # first compute and store polar radii (in units of lattice spacing) for points within the spray
         polar_radii = np.zeros((len(rows),len(cols)))
         for i in range(len(rows)):
             for j in range(len(cols)):
-                polar_radii[i][j] = ( ((rows[i] + 0.5) - ((event.y-self.hardpad)/self.lattice_spacing))**2 + ((cols[j] + 0.5) - ((event.x-self.hardpad)/self.lattice_spacing))**2)
+                polar_radii[i][j] = ( ((rows[i] + 0.5) - ((event.y-self.hardpad)/self.virtual_spacing))**2 + ((cols[j] + 0.5) - ((event.x-self.hardpad)/self.virtual_spacing))**2)
 
         # now paint the points from the spray that fall within the spray index
         for i in range(len(rows)):
@@ -237,10 +237,10 @@ class LayerPainter(tk.Frame):
 
     def fill_selected_rectangle(self):
         # higher indices are toward the bottom right, lower indices are toward the top left
-        col_first = int((self.first_rectangle_x-self.hardpad)//self.lattice_spacing)
-        row_first = int((self.first_rectangle_y-self.hardpad)//self.lattice_spacing)
-        col_second = int((self.second_rectangle_x-self.hardpad)//self.lattice_spacing)
-        row_second = int((self.second_rectangle_y-self.hardpad)//self.lattice_spacing)
+        col_first = int((self.first_rectangle_x-self.hardpad)//self.virtual_spacing)
+        row_first = int((self.first_rectangle_y-self.hardpad)//self.virtual_spacing)
+        col_second = int((self.second_rectangle_x-self.hardpad)//self.virtual_spacing)
+        row_second = int((self.second_rectangle_y-self.hardpad)//self.virtual_spacing)
 
         if (col_first > col_second) and (row_first > row_second):
             rows = range(row_second, row_first+1)
@@ -277,8 +277,8 @@ class LayerPainter(tk.Frame):
 
     def pencil(self, event):
         # Calculate column and row number
-        col = int((event.x-self.hardpad)//self.lattice_spacing)
-        row = int((event.y-self.hardpad)//self.lattice_spacing)
+        col = int((event.x-self.hardpad)//self.virtual_spacing)
+        row = int((event.y-self.hardpad)//self.virtual_spacing)
         # avoid attempting to under- or over-paint
         if (col < 0) or (row < 0): return
         if (col > self.lattice_width-1) or (row > self.lattice_height-1): return

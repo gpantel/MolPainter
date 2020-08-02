@@ -5,7 +5,7 @@ class GridConfigurator(tk.Frame):
     """
     This defines a window for setting dimensions of the project at a global level.
     """
-    def __init__(self, gridwidth, gridheight, gridarea, gridlines, gridaction, task="modify", master=None):
+    def __init__(self, gridwidth, gridheight, gridspacing, gridlines, gridaction, task="modify", master=None):
         super().__init__(master)
         self.master = master
         self.grid(column=0, row=0)
@@ -25,10 +25,10 @@ class GridConfigurator(tk.Frame):
         self.height_entry = tk.Entry(self, textvariable=self.heightvar)
         self.height_entry.grid(row=1, column=1, padx=2, pady=4)
 
-        self.areavar = gridarea
-        self.lbl_area = tk.Label(self, text="Square cell area " + u"\u212B\u00b2")
+        self.spacingvar = gridspacing
+        self.lbl_area = tk.Label(self, text="Cell spacing " + u"\u212B")
         self.lbl_area.grid(row=2, column=0, padx=2, pady=4)
-        self.area_entry = tk.Entry(self, textvariable=self.areavar)
+        self.area_entry = tk.Entry(self, textvariable=self.spacingvar)
         self.area_entry.grid(row=2, column=1, padx=2, pady=4)
 
         self.linesvar = gridlines

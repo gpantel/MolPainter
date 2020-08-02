@@ -51,7 +51,7 @@ class Exporter(tk.Frame):
         self.statuslabel.grid(row=3, column=0, columnspan=5, padx=2, pady=4)
 
         self.master.bind('<Return>', self.return_event)
-        self.lattice_spacing = np.sqrt(self.project.lattice_area)
+        self.lattice_spacing = self.project.lattice_spacing
 
     def file_select_action(self):
         self.exportfilevar.set(filedialog.asksaveasfilename(initialdir = "./",title = "Select file",filetypes = (("PDB file","*.pdb"),("all files","*.*"))))

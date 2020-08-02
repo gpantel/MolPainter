@@ -45,7 +45,7 @@ class Commands:
 
         self.gridwidth = tk.StringVar()
         self.gridheight = tk.StringVar()
-        self.gridarea = tk.StringVar()
+        self.gridspacing = tk.StringVar()
         self.gridaction = tk.StringVar()
         self.gridlines = tk.StringVar()
         self.gridaction.trace_variable("w", self.grid_modified)
@@ -171,10 +171,10 @@ class Commands:
             return
         self.gridwidth.set(self.project.lattice_width)
         self.gridheight.set(self.project.lattice_height)
-        self.gridarea.set(self.project.lattice_area)
+        self.gridspacing.set(self.project.lattice_spacing)
         self.gridlines.set(self.project.lattice_major_gridlines)
         grid_popup = tk.Toplevel(self.gui)
-        self.grid_settings = GridConfigurator(self.gridwidth, self.gridheight, self.gridarea, self.gridlines, self.gridaction, "modify", grid_popup)
+        self.grid_settings = GridConfigurator(self.gridwidth, self.gridheight, self.gridspacing, self.gridlines, self.gridaction, "modify", grid_popup)
 
     def grid_modified(self, arg1, arg2, arg3):
         """
@@ -182,7 +182,7 @@ class Commands:
         changes should be discarded.
         """
         if self.gridaction.get() == "modify":
-            self.project.edit_lattice_params(int(self.gridwidth.get()), int(self.gridheight.get()), int(self.gridarea.get()), int(self.gridlines.get()))
+            self.project.edit_lattice_params(int(self.gridwidth.get()), int(self.gridheight.get()), int(self.gridspacing.get()), int(self.gridlines.get()))
             self.grid_settings = None
             self.gui.drawarea.refresh_tabs()
         elif self.gridaction.get() == "cancel":
