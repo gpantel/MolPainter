@@ -27,3 +27,9 @@ mol addrep 0
 mol modcolor 3 0 ColorID 10
 mol modselect 3 0 name W WF or resname ION
 mol modmaterial 3 0 Transparent
+
+scale by 1.200000
+scale by 1.200000
+rotate x by -65
+rotate y by -55
+rotate z by -15
