@@ -1,23 +1,40 @@
-# Table of Contents
-- [Table of Contents](#table-of-contents)
-  * [Introducing MolPainter and MolSolvator](#introducing-molpainter-and-molsolvator)
-  * [MolPainter Usage](#molpainter-usage)
-    + [Buttons](#buttons)
-    + [Molecule palette](#molecule-palette)
-    + [Layers](#layers)
-    + [PDB files for molecules](#pdb-files-for-molecules)
-  * [MolSolvator Usage](#molsolvator-usage)
-  * [Installation](#installation)
-    + [See it in action](#see-it-in-action)
+# MolPainter
+
+## Table of Contents
+- [Introducing MolPainter and MolSolvator](#introducing-molpainter-and-molsolvator)
+- [Installation](#installation)
+- [MolPainter Usage](#molpainter-usage)
+  * [Buttons](#buttons)
+  * [Molecule palette](#molecule-palette)
+  * [Layers](#layers)
+  * [PDB files for molecules](#pdb-files-for-molecules)
+- [MolSolvator Usage](#molsolvator-usage)
+- [Give it a try!](#give-it-a-try)
 
 ## Introducing MolPainter and MolSolvator
-##### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
+#### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
+
+![Screenshot](https://raw.githubusercontent.com/gpantel/MolPainter/master/tutorial/images/TutorialFigure.png)
 
 MolPainter is a novel graphical tool that enables users to specifically define the location of molecules in multi-layered, planar molecular systems. MolPainter achieves this by treating each plane of a hypothetical molecular system, defined by a z-axial position, as a two dimensional grids which serve as canvases. By associating molecular structures (in PDB format) to colors, these canvases can be painted to precisely define molecular environments.
 
 MolSolvator, the sister program of MolPainter, is a command line tool that can rapidly solvate such planar systems within the context of the lattices of the "solute" systems produced by MolPainter.
 
+## Installation
 
+Install through pip:
+```
+pip install MolPainter
+```
+
+Run from the command line:
+```
+molpainter
+```
+
+```
+molsolvator -i input.toml
+```
 
 ## MolPainter Usage
 ### Buttons
@@ -102,8 +119,6 @@ molpainter
 molsolvator -i input.toml
 ```
 
-### Give it a try!
+## Give it a try!
 
-A complete tutorial showing how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the `tutorial/` directory.
-
-
+A complete tutorial showing how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the GitHub repo at: https://github.com/gpantel/MolPainter/tree/master/tutorial
