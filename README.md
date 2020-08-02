@@ -2,23 +2,39 @@
 
 ## Table of Contents
 - [Introducing MolPainter and MolSolvator](#introducing-molpainter-and-molsolvator)
+- [Installation](#installation)
 - [MolPainter Usage](#molpainter-usage)
   * [Buttons](#buttons)
   * [Molecule palette](#molecule-palette)
   * [Layers](#layers)
   * [PDB files for molecules](#pdb-files-for-molecules)
 - [MolSolvator Usage](#molsolvator-usage)
-- [Installation](#installation)
 - [Give it a try!](#give-it-a-try)
 
 ## Introducing MolPainter and MolSolvator
-##### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
+#### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
 
 ![Screenshot](https://raw.githubusercontent.com/gpantel/MolPainter/master/tutorial/images/TutorialFigure.png)
 
 MolPainter is a novel graphical tool that enables users to specifically define the location of molecules in multi-layered, planar molecular systems. MolPainter achieves this by treating each plane of a hypothetical molecular system, defined by a z-axial position, as a two dimensional grids which serve as canvases. By associating molecular structures (in PDB format) to colors, these canvases can be painted to precisely define molecular environments.
 
 MolSolvator, the sister program of MolPainter, is a command line tool that can rapidly solvate such planar systems within the context of the lattices of the "solute" systems produced by MolPainter.
+
+## Installation
+
+Install through pip:
+```
+pip install MolPainter
+```
+
+Run from the command line:
+```
+molpainter
+```
+
+```
+molsolvator -i input.toml
+```
 
 ## MolPainter Usage
 ### Buttons
@@ -81,21 +97,11 @@ The input file that controls the i/o for MolSolvator is a TOML-format file. Each
     - max_iterations = *integer*, maximum number of attempts to insert a solvent molecule to the lattice before aborting.
     - rotate = *lower case boolean*, boolean to enable random 3D rotations of solvent molecules. ("true", not "True". "false", not "False")
 
-## Installation
+In addition to the i/o file, MolSolvator has additional command line actions
 
-Install through pip:
-```
-pip install MolPainter
-```
-
-Run from the command line:
-```
-molpainter
-```
-
-```
-molsolvator -i input.toml
-```
+* Command line actions
+    - *-zeroz*, translates the system such that min(*z*) = solvent lattice spacing / 2, following solvation.
+    - *-centerc*, translates the system such that <x,y,z> = 0,0,0, following solvation.
 
 ## Give it a try!
 
