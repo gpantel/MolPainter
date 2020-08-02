@@ -23,15 +23,14 @@ class Toolbox(tk.Frame):
         self.btn_rect = tk.Button(self, image=self.rect_icon, command=self.activate_rect, height=40, width=40)
         self.btn_spray = tk.Button(self, image=self.spray_icon, command=self.activate_spray, height=40, width=40)
 
-        self.spray_width_scale = tk.Scale(master, from_=1, to=6, orient="horizontal", label='Spray radius', length=130)
-
+        self.spray_width_scale = tk.Scale(self, from_=1, to=6, orient="horizontal", label='Spray radius', length=130)
         
         self.btn_zoomout.grid(column=0, row=0, columnspan=1, rowspan=1, sticky=("W"))
         self.btn_zoomin.grid(column=1, row=0, columnspan=1, rowspan=1, sticky=("W"))
         self.btn_pencil.grid(column=0, row=1, columnspan=1, rowspan=1, sticky=("W"))
         self.btn_rect.grid(column=1, row=1, columnspan=1, rowspan=1, sticky=("W"))
         self.btn_spray.grid(column=2, row=1, columnspan=1, rowspan=1, sticky=("W"))
-        self.spray_width_scale.grid(column=0, row=5, sticky=("N", "S", "W"))
+        self.spray_width_scale.grid(column=0, row=5, columnspan=3, rowspan=1, sticky=("N", "S", "W"))
 
     def activate_pencil(self):
         #self.btn_pencil.state(['pressed'])
