@@ -98,6 +98,6 @@ molsolvator -i input.toml
 
 ### Give it a try!
 
-A complete tutorial showin how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the `tutorial/` directory.
+A complete tutorial showing how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the `tutorial/` directory.
 
 
