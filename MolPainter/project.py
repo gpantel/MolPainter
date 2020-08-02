@@ -66,7 +66,7 @@ class Project():
         """
         self.lattice_width = 25
         self.lattice_height = 25
-        self.lattice_area = 60
+        self.lattice_spacing = 8
         self.lattice_major_gridlines = 5
         self.layer_count = 1
         self.molecule_count = 0
@@ -82,11 +82,11 @@ class Project():
         self.solvent_molecules = []
         self.solvent_layers = []
 
-    def edit_lattice_params(self, width, height, area, lines):
+    def edit_lattice_params(self, width, height, spacing, lines):
         """
         Change the lattice size of this project. The layers must resize to match.
         """
-        self.lattice_area = area
+        self.lattice_spacing = spacing
         self.lattice_width = width
         self.lattice_height = height
         self.lattice_major_gridlines = lines
