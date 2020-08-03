@@ -71,7 +71,7 @@ Paint using:
 * The spray tool, whose nozzle width can be adjusted with the *Spray radius* bar (shift+left click, hold, and drag on canvas).
 Rather than an eraser tool, we have an "Empty" molecule. If you wish to have a cell that has no molecule, paint it with the "Empty" molecule.
 
-Let’s paint the left-hand side of the system with DPPC+CHOL, which will form the liquid ordered (Lo) phase. We can make a quick initial painting using the box tool, then touch up the number and location of DPPC and CHOL using the pen tool. Let’s aim for something like Figure 5.A. After that, let’s paint the right-hand side of the system with DIPC+CHOL, which will form the liquid disordered (Ld) phase, first using the rectangle tool then touching up as needed with the pen, coming to a painting like Figure 5.B.
+Let’s paint the left-hand side of the system with DPPC+CHOL, which will form the liquid ordered (Lo) phase. We can make a quick initial painting using the box tool, then touch up the number and location of DPPC and CHOL using the pen tool. After that, let’s paint the right-hand side of the system with DIPC+CHOL, which will form the liquid disordered (Ld) phase, first using the rectangle tool then touching up as needed with the pen, coming to a painting like Figure 5.
 
 ![Figure5](images/Figure5.png)</br>
 *Figure 5. Painting of a lipid phase separation using the DPPC, DIPC, and CHOL molecules, in concert with the "Lo Phase Blend" and "Ld Phase Blend" blends.*
