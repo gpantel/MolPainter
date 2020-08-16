@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+
 class Toolbox(tk.Frame):
     """
     This defines the painting tool buttons at the side of the window.
@@ -10,11 +11,11 @@ class Toolbox(tk.Frame):
         self.master = master
         self.grid(column=0, row=0)
 
-        self.pencil_icon = tk.PhotoImage(file=__file__[:-10]+'icons/pencil.png')
-        self.rect_icon = tk.PhotoImage(file=__file__[:-10]+'icons/square.png')
-        self.spray_icon = tk.PhotoImage(file=__file__[:-10]+'icons/spraycan.png')
-        self.zoomin_icon = tk.PhotoImage(file=__file__[:-10]+'icons/zoomin.png')
-        self.zoomout_icon = tk.PhotoImage(file=__file__[:-10]+'icons/zoomout.png')
+        self.pencil_icon = tk.PhotoImage(file='icons/pencil.png')
+        self.rect_icon = tk.PhotoImage(file='icons/square.png')
+        self.spray_icon = tk.PhotoImage(file='icons/spraycan.png')
+        self.zoomin_icon = tk.PhotoImage(file='icons/zoomin.png')
+        self.zoomout_icon = tk.PhotoImage(file='icons/zoomout.png')
 
         self.btn_zoomout = tk.Button(self, image=self.zoomout_icon, command=self.master.cmds.zoom_out_action, height=40, width=40)
         self.btn_zoomin = tk.Button(self, image=self.zoomin_icon, command=self.master.cmds.zoom_in_action, height=40, width=40)
