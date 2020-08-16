@@ -10,6 +10,7 @@
   * [PDB files for molecules](#pdb-files-for-molecules)
 - [MolSolvator Usage](#molsolvator-usage)
 - [Give it a try!](#give-it-a-try)
+- [Wishlist](#wishlist)
 
 ## Introducing MolPainter and MolSolvator
 #### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
@@ -122,3 +123,17 @@ molsolvator -i input.toml
 ## Give it a try!
 
 A complete tutorial showing how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the GitHub repo at: https://github.com/gpantel/MolPainter/tree/master/tutorial
+
+## Wishlist
+* Create ability to use MolPainter as a "solvator" to systems
+    - Allow user to load in a PDB/GRO structure of a "solute system"
+    - When setting the z-position of a layer, disable & **black** out cells that would overlap with the solute structure
+    - Add a "buffer" spacing
+* Make a "buffer" spacing affect painted molecules
+    - When a molecule is loaded, measure it's size and choose how many cells in the x and y direction it occupies.
+    - When painting, draw **gray** onto the extra cells it occupies, like for the "solute system"
+* Allow defining x- and y-dimensiosn of each cell as different lengths
+    - Would be a propery of the layer grids.
+    - Would need to add a corresponding option to MolSolvator (simple easy)
+* Option to automatically determine x- and y-dimensions of layer grids based on smallest molecule loaded to MolPainter + "buffer" spacing.
+
