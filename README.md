@@ -10,7 +10,6 @@
   * [PDB files for molecules](#pdb-files-for-molecules)
 - [MolSolvator Usage](#molsolvator-usage)
 - [Give it a try!](#give-it-a-try)
-- [Wishlist](#wishlist)
 
 ## Introducing MolPainter and MolSolvator
 #### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
