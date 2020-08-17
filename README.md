@@ -10,7 +10,6 @@
   * [PDB files for molecules](#pdb-files-for-molecules)
 - [MolSolvator Usage](#molsolvator-usage)
 - [Give it a try!](#give-it-a-try)
-- [Wishlist](#wishlist)
 
 ## Introducing MolPainter and MolSolvator
 #### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
@@ -103,22 +102,6 @@ In addition to the i/o file, MolSolvator has additional command line actions
 * Command line actions
     - *-zeroz*, translates the system such that min(*z*) = solvent lattice spacing / 2, following solvation.
     - *-centerc*, translates the system such that <x,y,z> = 0,0,0, following solvation.
-
-## Installation
-
-Install locally via setup, for testing:
-```
-python3 setup.py develop
-```
-
-Run from the command line:
-```
-molpainter
-```
-
-```
-molsolvator -i input.toml
-```
 
 ## Give it a try!
 
