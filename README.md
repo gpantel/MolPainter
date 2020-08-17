@@ -136,4 +136,4 @@ A complete tutorial showing how to use MolPainter and MolSolvator to construct a
     - Would be a propery of the layer grids.
     - Would need to add a corresponding option to MolSolvator (simple easy)
 * Option to automatically determine x- and y-dimensions of layer grids based on smallest molecule loaded to MolPainter + "buffer" spacing.
-
+* Option for molecule to automatically be oriented along the z-axis, based on an orientation vector input by the user and/or automatically determined based on the molecule coordinates.
