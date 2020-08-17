@@ -103,22 +103,6 @@ In addition to the i/o file, MolSolvator has additional command line actions
     - *-zeroz*, translates the system such that min(*z*) = solvent lattice spacing / 2, following solvation.
     - *-centerc*, translates the system such that <x,y,z> = 0,0,0, following solvation.
 
-## Installation
-
-Install locally via setup, for testing:
-```
-python3 setup.py develop
-```
-
-Run from the command line:
-```
-molpainter
-```
-
-```
-molsolvator -i input.toml
-```
-
 ## Give it a try!
 
 A complete tutorial showing how to use MolPainter and MolSolvator to construct a system and perform a simulation using GROMACS is available in the GitHub repo at: https://github.com/gpantel/MolPainter/tree/master/tutorial
