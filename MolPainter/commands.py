@@ -150,14 +150,18 @@ class Commands:
                 newlayer.lattice = np.array(layer['lattice'])
                 self.gui.layer_created(newlayer)
                 self.project.add_layer(newlayer)
-                self.gui.drawarea.refresh_tabs()
             # New solute import feature. Suppress errors for backward compatibility.
             try:
                 if proj['import_solute']:
-                    self.project.edit_solute_settings(proj['import_solute'], proj['solute_buffer_space'], proj['solute_center'])
-                    self.project.load_solute(False)
+                    self.project.edit_solute_settings(proj['import_solute'], proj['solute_buffer_space'], proj['solute_z'])
+                    try:
+                        self.project.load_solute(False)
+                    except Exception as e:
+                        tk.messagebox.showinfo(message=e.strerror)
+                        self.project.import_solute = None
             except KeyError:
                 pass
+            self.gui.drawarea.refresh_tabs()
             self.project.project_loaded()
 
     def file_exists(self, path):
