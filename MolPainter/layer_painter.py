@@ -132,6 +132,9 @@ class LayerPainter(tk.Frame):
         """
         Paint a single molecule onto this layer
         """
+        if self.master.zlayer.lattice[row][col] == -1:
+            # This is an obstructed site and can't be painted over
+            return
         id, color = self.master.master.master.molecule.get_paint_props()
         if self.master.zlayer.lattice[row][col] != id:
             self.master.zlayer.lattice[row][col] = id

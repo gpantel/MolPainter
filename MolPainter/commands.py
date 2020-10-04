@@ -11,6 +11,7 @@ from .blend_configurator import BlendConfigurator
 from .grid_configurator import GridConfigurator
 from .proj_saver import ProjSaver
 from .exporter import Exporter
+from .solute_importer import SoluteImporter
 
 
 class Commands:
@@ -53,6 +54,7 @@ class Commands:
 
         self.exportfilevar = tk.StringVar()
         self.exportfilevar.set("output.pdb")
+        self.importfilevar = tk.StringVar()
 
         self.projfilevar = tk.StringVar()
         self.projfilevar.set(os.path.join(os.path.expanduser('~'), "project.json"))
@@ -149,6 +151,13 @@ class Commands:
                 self.gui.layer_created(newlayer)
                 self.project.add_layer(newlayer)
                 self.gui.drawarea.refresh_tabs()
+            # New solute import feature. Suppress errors for backward compatibility.
+            try:
+                if proj['import_solute']:
+                    self.project.edit_solute_settings(proj['import_solute'], proj['solute_buffer_space'], proj['solute_center'])
+                    self.project.load_solute(False)
+            except KeyError:
+                pass
             self.project.project_loaded()
 
     def file_exists(self, path):
@@ -489,3 +498,10 @@ class Commands:
         """
         export_popup = tk.Toplevel(self.gui)
         Exporter(self.project, self.exportfilevar, self.projfilevar, export_popup)
+
+    def import_solute_action(self):
+        """
+        Command to import a PDB system that will be merged with the current project
+        """
+        import_popup = tk.Toplevel(self.gui)
+        SoluteImporter(self.project, self.importfilevar, import_popup)

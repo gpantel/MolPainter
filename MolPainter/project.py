@@ -74,6 +74,9 @@ class Project():
         self.solvent_layer_count = 0
         self.blender_count = 0
         self.blender_offset = 1000
+        self.import_solute = None
+        self.solute_buffer_space = 5
+        self.solute_center = None
 
         self.layers = []
         self.molecules = []
@@ -232,4 +235,41 @@ class Project():
         self.solvent_layers.remove(layer)
         layer = None
 
-        
+    def edit_solute_settings(self, file, bufspace, center):
+        """
+        Apply solute configuration so it can be loaded
+        """
+        self.import_solute = file
+        self.solute_buffer_space = bufspace
+        self.solute_center = center
+
+    def load_solute(self, should_expand):
+        """
+        Import a solute into the project. Expands the lattice if needed.
+        """
+        if self.import_solute is not None:
+            #TODO load file self.import_solute here
+            pass
+        else:
+            return
+
+        if should_expand:
+            #TODO figure out new width and height
+            newwidth = 50
+            newheight = 50
+            self.edit_lattice_params(newwidth, newheight, self.lattice_spacing, self.lattice_major_gridlines)
+
+        if self.solute_center is not None:
+            #TODO center it at depth self.solute_center
+            pass
+
+        for layer in self.layers:
+            self.overlay_solute(layer)
+
+    def overlay_solute(self, layer):
+        """
+        Overlay the imported solute onto one layer so that the lattice regions
+        occupied by the solute become obstructed.
+        """
+        # layer.lattice is the array
+        pass

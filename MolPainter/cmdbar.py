@@ -19,7 +19,7 @@ class CmdBar(tk.Frame):
         self.btn_open = tk.Button(self, text="Open Painting", command=self.master.cmds.load_project_action)
         self.btn_save = tk.Button(self, text="Save Painting", command=self.master.cmds.save_project_action)
         self.btn_export = tk.Button(self, text="Export System", command=self.master.cmds.export_action)
-        self.btn_import = tk.Button(self, text="Import Solute", command=self.master.cmds.no_action)
+        self.btn_import = tk.Button(self, text="Import Solute", command=self.master.cmds.import_solute_action)
         self.btn_newmol = tk.Button(self, text="New Molecule", command=self.master.cmds.new_molecule_action)
         self.btn_newblend = tk.Button(self, text="New Blend", command=self.master.cmds.new_blend_action)
         self.btn_newlayer = tk.Button(self, text="New Layer", command=self.master.cmds.new_layer_action)

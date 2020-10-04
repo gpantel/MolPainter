@@ -46,12 +46,16 @@ class PainterWindow(tk.Frame):
         """
         Used to notify the GUI that a new Z Layer was added
         """
+        if self.project.import_solute is not None:
+            self.project.overlay_solute(layer)
         self.drawarea.add_layer(layer)
 
     def layer_modified(self, layer):
         """
         Used to notify the GUI that a Z Layer was modified
         """
+        if self.project.import_solute is not None:
+            self.project.overlay_solute(layer)
         self.drawarea.refresh_tabs()
 
     def layer_removed(self, layer):

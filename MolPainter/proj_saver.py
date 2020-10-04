@@ -78,6 +78,9 @@ class ProjSaver(tk.Frame):
 
         return True
 
+    def copy_solute(self, destdir):
+        pass
+
     def get_destdir(self):
         """
         Get the destination directory based on the savefile location. If the
@@ -149,6 +152,9 @@ class ProjSaver(tk.Frame):
                 'lattice_height' : self.project.lattice_height,
                 'lattice_spacing' : self.project.lattice_spacing,
                 'lattice_major_gridlines' : self.project.lattice_major_gridlines,
+                'import_solute' : self.project.import_solute,
+                'solute_buffer_space' : self.project.solute_buffer_space,
+                'solute_center' : self.project.solute_center
             },
             'molecules' : [],
             'blenders' : [],
