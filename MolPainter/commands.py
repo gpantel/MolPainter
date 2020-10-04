@@ -192,6 +192,9 @@ class Commands:
         """
         if self.gridaction.get() == "modify":
             self.project.edit_lattice_params(int(self.gridwidth.get()), int(self.gridheight.get()), int(self.gridspacing.get()), int(self.gridlines.get()))
+            if self.project.import_solute is not None:
+                for layer in self.project.layers:
+                    self.project.overlay_solute(layer)
             self.grid_settings = None
             self.gui.drawarea.refresh_tabs()
         elif self.gridaction.get() == "cancel":
@@ -248,8 +251,8 @@ class Commands:
         if self.layeraction.get() == "create":
             self.newlayer.name = self.layername.get()
             self.newlayer.zdepth = int(self.layerdepth.get())
-            self.gui.layer_created(self.newlayer)
             self.project.add_layer(self.newlayer)
+            self.gui.layer_created(self.newlayer)
             self.layer_settings = None
             self.newlayer = None
         elif self.layeraction.get() == "modify":

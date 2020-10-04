@@ -79,6 +79,11 @@ class ProjSaver(tk.Frame):
         return True
 
     def copy_solute(self, destdir):
+        """
+        Make a copy of the solute file along with the other project files.
+        Check if the file exists and prompt to update it if it does not.
+        Modifies the path to only refer to the filename.
+        """
         pass
 
     def get_destdir(self):
