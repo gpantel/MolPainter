@@ -89,10 +89,14 @@ class LayerPainter(tk.Frame):
             for col in range(self.master.zlayer.lattice.shape[1]):
                 color = "#FFFFFF"
                 molid = self.master.zlayer.lattice[row][col]
-                for mol in self.master.master.master.master.project.molecules:
-                    if mol.index == molid:
-                        color = mol.color
-                        break
+                if molid == -1:
+                    # Obstructed cell
+                    color = "#000000"
+                else:
+                    for mol in self.master.master.master.master.project.molecules:
+                        if mol.index == molid:
+                            color = mol.color
+                            break
                 self.rectangles_image.put(color, to=(int((col*self.virtual_spacing)),\
                       int((row*self.virtual_spacing)),\
                       int(((col+1)*self.virtual_spacing)),\
