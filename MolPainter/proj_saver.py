@@ -50,6 +50,9 @@ class ProjSaver(tk.Frame):
         if self.copyfilesbool.get():
             if not self.copy_molecules(destdir):
                 return
+        if self.copyfilesbool.get():
+            if self.project.import_solute is not None:
+                self.copy_solute(destdir)
         self.write_project_file()
         self.master.destroy()
 
@@ -77,6 +80,36 @@ class ProjSaver(tk.Frame):
             self.copy_mol(mol, destdir)
 
         return True
+
+    def copy_solute(self, destdir):
+        """
+        Make a copy of the solute file along with the other project files.
+        Check if the file exists and prompt to update it if it does not.
+        Modifies the path to only refer to the filename.
+        """
+        exists = True
+        try:
+            exists = os.path.exists(self.project.import_solute)
+        except:
+            exists = False
+        while not exists:
+            newpath = None
+            result = tk.messagebox.askyesno(
+                message="The source path for solute doesn't exist.\n{}\nDo you want to choose a new path?".format(self.project.import_solute))
+            if result:
+                newpath = filedialog.askopenfilename(filetypes = (("PDB file","*.pdb"),("all files","*.*")))
+            else:
+                self.project.import_solute = None
+                return
+            try:
+                exists = os.path.exists(self.project.import_solute)
+            except:
+                exists = False
+        try:
+            shutil.copy2(self.project.import_solute, destdir)
+            self.project.import_solute = os.path.basename(self.project.import_solute)
+        except OSError as e:
+            tk.messagebox.showinfo(message=e.strerror)
 
     def get_destdir(self):
         """
@@ -149,6 +182,9 @@ class ProjSaver(tk.Frame):
                 'lattice_height' : self.project.lattice_height,
                 'lattice_spacing' : self.project.lattice_spacing,
                 'lattice_major_gridlines' : self.project.lattice_major_gridlines,
+                'import_solute' : self.project.import_solute,
+                'solute_buffer_space' : self.project.solute_buffer_space,
+                'solute_z' : self.project.solute_z
             },
             'molecules' : [],
             'blenders' : [],

@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="MolPainter",
-    version="1.0.1",
+    version="1.1.0",
     description="Tool for drawing complex planar molecular systems of arbitrary composition and molecule placement",
     long_description=open('README.md', 'r').read(),
     long_description_content_type="text/markdown",

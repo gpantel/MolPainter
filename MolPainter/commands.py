@@ -11,6 +11,7 @@ from .blend_configurator import BlendConfigurator
 from .grid_configurator import GridConfigurator
 from .proj_saver import ProjSaver
 from .exporter import Exporter
+from .solute_importer import SoluteImporter
 
 
 class Commands:
@@ -53,6 +54,7 @@ class Commands:
 
         self.exportfilevar = tk.StringVar()
         self.exportfilevar.set("output.pdb")
+        self.importfilevar = tk.StringVar()
 
         self.projfilevar = tk.StringVar()
         self.projfilevar.set(os.path.join(os.path.expanduser('~'), "project.json"))
@@ -148,7 +150,21 @@ class Commands:
                 newlayer.lattice = np.array(layer['lattice'])
                 self.gui.layer_created(newlayer)
                 self.project.add_layer(newlayer)
-                self.gui.drawarea.refresh_tabs()
+            # New solute import feature. Suppress errors for backward compatibility.
+            try:
+                if proj['settings']['import_solute']:
+                    solute_path = proj['settings']['import_solute']
+                    if not self.file_exists(solute_path):
+                        solute_path = os.path.join(os.path.dirname(path), os.path.basename(solute_path))
+                    self.project.edit_solute_settings(solute_path, proj['settings']['solute_buffer_space'], proj['settings']['solute_z'])
+                    try:
+                        self.project.load_solute(False)
+                    except Exception as e:
+                        tk.messagebox.showinfo(message=e.strerror)
+                        self.project.import_solute = None
+            except KeyError:
+                pass
+            self.gui.drawarea.refresh_tabs()
             self.project.project_loaded()
 
     def file_exists(self, path):
@@ -183,6 +199,9 @@ class Commands:
         """
         if self.gridaction.get() == "modify":
             self.project.edit_lattice_params(int(self.gridwidth.get()), int(self.gridheight.get()), int(self.gridspacing.get()), int(self.gridlines.get()))
+            if self.project.import_solute is not None:
+                for layer in self.project.layers:
+                    self.project.overlay_solute(layer)
             self.grid_settings = None
             self.gui.drawarea.refresh_tabs()
         elif self.gridaction.get() == "cancel":
@@ -239,8 +258,8 @@ class Commands:
         if self.layeraction.get() == "create":
             self.newlayer.name = self.layername.get()
             self.newlayer.zdepth = int(self.layerdepth.get())
-            self.gui.layer_created(self.newlayer)
             self.project.add_layer(self.newlayer)
+            self.gui.layer_created(self.newlayer)
             self.layer_settings = None
             self.newlayer = None
         elif self.layeraction.get() == "modify":
@@ -489,3 +508,12 @@ class Commands:
         """
         export_popup = tk.Toplevel(self.gui)
         Exporter(self.project, self.exportfilevar, self.projfilevar, export_popup)
+
+    def import_solute_action(self):
+        """
+        Command to import a PDB system that will be merged with the current project
+        """
+        if self.project.import_solute is not None:
+            self.importfilevar.set(self.project.import_solute)
+        import_popup = tk.Toplevel(self.gui)
+        SoluteImporter(self.project, self.importfilevar, import_popup)

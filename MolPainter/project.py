@@ -1,6 +1,7 @@
 import json
 import random
 import numpy as np
+import MDAnalysis as mda
 
 
 class ZLayer():
@@ -74,6 +75,9 @@ class Project():
         self.solvent_layer_count = 0
         self.blender_count = 0
         self.blender_offset = 1000
+        self.import_solute = None
+        self.solute_buffer_space = 3
+        self.solute_z = None
 
         self.layers = []
         self.molecules = []
@@ -232,4 +236,76 @@ class Project():
         self.solvent_layers.remove(layer)
         layer = None
 
-        
+    def edit_solute_settings(self, file, bufspace, center):
+        """
+        Apply solute configuration so it can be loaded
+        """
+        self.import_solute = file
+        self.solute_buffer_space = float(bufspace)
+        if center is not None:
+            self.solute_z = float(center)
+        else:
+            self.solute_z = None
+
+    def load_solute(self, should_expand):
+        """
+        Import a solute into the project. Expands the lattice if needed.
+        """
+        if self.import_solute is not None:
+            self.solute = mda.Universe(self.import_solute)
+        else:
+            return
+
+        if self.solute_z is not None:
+            positions = self.solute.atoms.positions
+            solute_indices = list(set(list(np.where(positions[:,2] > self.solute_z-self.lattice_spacing)[0])) & set(list(np.where(positions[:,2] < self.solute_z+self.lattice_spacing)[0])))
+            solute_center = np.array([np.mean(positions[:,0]), np.mean(positions[:,1]), np.mean(positions[:,2])])
+            lattice_center = np.array([(self.lattice_spacing*self.lattice_width)/2., (self.lattice_spacing*self.lattice_height)/2., self.solute_z])
+            self.solute.atoms.positions = positions + (lattice_center - solute_center)
+            pass
+
+        if should_expand:
+            xmax = np.amax(self.solute.atoms.positions[:,0])
+            ymax = np.amax(self.solute.atoms.positions[:,1])
+            newwidth = self.lattice_width
+            newheight = self.lattice_height
+            if xmax > (self.lattice_width*self.lattice_spacing):
+                newwidth = int((xmax + self.solute_buffer_space + self.lattice_spacing) // self.lattice_spacing)
+            if ymax > (self.lattice_height*self.lattice_spacing):
+                newheight = int((ymax + self.solute_buffer_space + self.lattice_spacing) // self.lattice_spacing)
+            self.edit_lattice_params(newwidth, newheight, self.lattice_spacing, self.lattice_major_gridlines)
+
+        for layer in self.layers:
+            self.overlay_solute(layer)
+
+    def overlay_solute(self, layer):
+        """
+        Overlay the imported solute onto one layer so that the lattice regions
+        occupied by the solute become obstructed.
+        """
+        positions = self.solute.atoms.positions
+        solute_indices = list(set(list(np.where(positions[:,2] > layer.zdepth-self.lattice_spacing)[0])) & set(list(np.where(positions[:,2] < layer.zdepth+self.lattice_spacing)[0])))
+        self.remove_overlay(layer)
+        for ind in solute_indices:
+            x = positions[ind][0]
+            y = positions[ind][1]
+            n_pos_x = int((x+self.solute_buffer_space) // self.lattice_spacing)
+            n_neg_x = int((x-self.solute_buffer_space) // self.lattice_spacing)
+            n_pos_y = int((y+self.solute_buffer_space) // self.lattice_spacing)
+            n_neg_y = int((y-self.solute_buffer_space) // self.lattice_spacing)
+            n_range_x = list(range(n_neg_x, n_pos_x+1))
+            n_range_y = list(range(n_neg_y, n_pos_y+1))
+            for row in n_range_y:
+                for col in n_range_x:
+                    if (row >= 0) and (row < layer.lattice.shape[0]) and (col >= 0) and (col < layer.lattice.shape[1]):
+                        np.flip(layer.lattice.swapaxes(0,1), axis=1)[col][row] = -1
+
+    def remove_overlay(self, layer):
+        """
+        Set obstructed lattice site IDs from -1 back to 0
+        """
+        for row in range(layer.lattice.shape[0]):
+            for col in range(layer.lattice.shape[1]):
+                if layer.lattice[row][col] == -1:
+                    layer.lattice[row][col] = 0
+    

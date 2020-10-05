@@ -39,6 +39,8 @@ class GridConfigurator(tk.Frame):
 
         self.lbl3 = tk.Label(self)
         self.lbl3.grid(row=4, column=0, columnspan=2, padx=2, pady=4)
+        if self.master.master.project.import_solute is not None:
+            self.lbl3["text"] = "Warning: a solute has been imported.\nChanging cell spacing may disrupt the painting."
 
         self.cancel_button = tk.Button(self, text="Cancel", command=self.cancel_action)
         self.ok_button = tk.Button(self, text="OK", command=self.ok_action)

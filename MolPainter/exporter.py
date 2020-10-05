@@ -111,6 +111,9 @@ class Exporter(tk.Frame):
             lattice_xy_coordinates = self.map_lattice_to_xy_hexagons()
 
         all_pdb_molecule_groups = []
+        if self.project.import_solute != None:
+            all_pdb_molecule_groups.append(self.project.solute.atoms)
+
         for i in range(len(self.project.molecules)):
             molecule_id = self.project.molecules[i].index
             # swap the layer.lattice x,y coordinates, then flip the y-coordinates s.t. x > and y ^
@@ -131,19 +134,25 @@ class Exporter(tk.Frame):
             else:
                 head_indices = np.where(pdbu.atoms.tempfactors == 1)[0]
             # create an empty Universe to store system parameters
-            n_residues = len(pdb_lattice_sites[0]) # number of molecules
+            n_mols = len(pdb_lattice_sites[0]) # number of molecules
+            mol_n_residues = pdbu.atoms.n_residues
+            n_residues = n_mols*mol_n_residues
             mol_n_atoms = pdbu.atoms.n_atoms
-            n_atoms = mol_n_atoms*n_residues
-            resindices = np.repeat(range(n_residues), mol_n_atoms)
+            n_atoms = mol_n_atoms*n_mols
+            # determine residue index of each atom
+            resindices = []
+            for j in range(n_mols):
+                for k in range(mol_n_atoms):
+                    resindices.append(pdbu.atoms.resindices[k]+(j*mol_n_residues))
             segindices = [0]*n_residues
 
             # initialize an empty universe and populate it
             molecule_universe = mda.Universe.empty(n_atoms, n_residues=n_residues, atom_resindex=resindices, 
-                                                            residue_segindex=segindices,trajectory=True)
+                                                            residue_segindex=segindices, trajectory=True)
             # assign topology attributes
-            molecule_universe.add_TopologyAttr('name', list(pdbu.atoms.names)*n_residues)
-            molecule_universe.add_TopologyAttr('type', list(pdbu.atoms.types)*n_residues)
-            molecule_universe.add_TopologyAttr('resnames', list(pdbu.atoms.residues.resnames)*n_residues)
+            molecule_universe.add_TopologyAttr('name', list(pdbu.atoms.names)*n_mols)
+            molecule_universe.add_TopologyAttr('type', list(pdbu.atoms.types)*n_mols)
+            molecule_universe.add_TopologyAttr('resnames', list(pdbu.atoms.residues.resnames)*n_mols)
             molecule_universe.add_TopologyAttr('resid', list(range(1, (n_residues)+1)))
             molecule_universe.add_TopologyAttr('segid', [list(pdbu.atoms.segids)[0]])
             molecule_coordinates = []
@@ -151,11 +160,15 @@ class Exporter(tk.Frame):
             if self.project.molecules[i].flipbool == 1:
                 pdbu.atoms.positions = self.flip_molecule(pdbu.atoms.positions)
             pdbuxyz = np.copy(pdbu.atoms.positions)
-            head_indices = np.where(pdbu.atoms.tempfactors == 1)[0]
-            head_positions = pdbu.atoms.positions[head_indices]
-            head_cog = np.mean(pdbu.atoms.positions[head_indices], axis=0)
+            if 1 in pdbu.atoms.tempfactors:
+                head_indices = np.where(pdbu.atoms.tempfactors == 1)[0]
+                head_positions = pdbu.atoms.positions[head_indices]
+                head_cog = np.mean(pdbu.atoms.positions[head_indices], axis=0)
+            else:
+                head_cog = np.mean(pdbu.atoms.positions, axis=0)
             pdbuxyz = pdbuxyz - head_cog # center the coordinates around the head
             pdbuxyz[:,2] += layer.zdepth # move the coordinates to zdepth such that the head is at zdepth
+
 
             for j in range(len(pdb_lattice_sites[0])):
                 # in units angstroms

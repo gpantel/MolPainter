@@ -89,10 +89,14 @@ class LayerPainter(tk.Frame):
             for col in range(self.master.zlayer.lattice.shape[1]):
                 color = "#FFFFFF"
                 molid = self.master.zlayer.lattice[row][col]
-                for mol in self.master.master.master.master.project.molecules:
-                    if mol.index == molid:
-                        color = mol.color
-                        break
+                if molid == -1:
+                    # Obstructed cell
+                    color = "#000000"
+                else:
+                    for mol in self.master.master.master.master.project.molecules:
+                        if mol.index == molid:
+                            color = mol.color
+                            break
                 self.rectangles_image.put(color, to=(int((col*self.virtual_spacing)),\
                       int((row*self.virtual_spacing)),\
                       int(((col+1)*self.virtual_spacing)),\
@@ -128,6 +132,9 @@ class LayerPainter(tk.Frame):
         """
         Paint a single molecule onto this layer
         """
+        if self.master.zlayer.lattice[row][col] == -1:
+            # This is an obstructed site and can't be painted over
+            return
         id, color = self.master.master.master.molecule.get_paint_props()
         if self.master.zlayer.lattice[row][col] != id:
             self.master.zlayer.lattice[row][col] = id
@@ -137,7 +144,7 @@ class LayerPainter(tk.Frame):
                                                 int(((row+1)*self.virtual_spacing))))
 
     def count_molecules(self):
-        number_of_molecules_in_layer = np.count_nonzero(self.master.zlayer.lattice)
+        number_of_molecules_in_layer = len(np.where(self.master.zlayer.lattice > 0)[0])
         molecules = self.master.master.master.master.mlist.molecules
         for i in range(1,len(molecules)):
             number_of_molecule = len(np.where(self.master.zlayer.lattice == molecules[i]["molecule"].index)[0])

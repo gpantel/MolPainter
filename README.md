@@ -40,9 +40,10 @@ molsolvator -i input.toml
 ### Buttons
 * Topbar buttons
     - **New** resets everything in MolPainter.
-    - **Open** loads a saved MolPainter state so you can continue changing your painting.
-    - **Save** saves a MolPainter state for later! This is a JSON-format file.
-    - **Export** constructes your painted system in PDB format. You can construct your system on square lattices or hexagonal lattices.
+    - **Open Painting** loads a saved MolPainter state so you can continue changing your painting.
+    - **Save Painting** saves a MolPainter state for later! This is a JSON-format file.
+    - **Export System** constructes your painted system in PDB format. You can construct your system on square lattices or hexagonal lattices.
+    - **Import Solute** *NEW IN 1.1!!* inserts a solute (PDBfile) to the MolPainter canvases, obstructing cells occupied by the solute coordinates and outputting the solute with the painting when exported.
     - **New Molecule** loads a PDB file corresponding to a molecule you wish to paint with. You can also set all painted copies of the molecule to be randomly rotated around the z-axis or be flipped 180˚ over the x-axis (like for lipid bilayers).
     - **New Blend** makes a "blend" of molecules. Blends draw molecules onto layer canvases with a weighted probability, running a RNG to determine which of the molecules that compose the blend are painted given their weighted probability.
     - **New Layer** makes new layers to paint on, defined by a z-axial position.
@@ -102,6 +103,26 @@ In addition to the i/o file, MolSolvator has additional command line actions
 * Command line actions
     - *-zeroz*, translates the system such that min(*z*) = solvent lattice spacing / 2, following solvation.
     - *-centerc*, translates the system such that <x,y,z> = 0,0,0, following solvation.
+
+## What's new in 1.1?
+
+**Solute** systems can now be added during a MolPainter session! These are systems in PDB format to which you want to *paint* using MolPainter while avoiding clashes.
+
+Let's say for example you wish to use MolPainter to paint lipids around one or multiple proteins. In 1.0 you would have to do this by *guessing* where the protein will be located and paint the system to try to avoid clasing with the protein. Not very convenient...
+
+Now you can *Insert a Solute* into MolPainter canvases. A solute will "obstruct" cells in the layers of MolPainter,  making them unavailable for painting, based on the real coordinates of the Solute system described in the input PDB file. Just how far these obstructed cells extend from the coordinates of the Solute can be tweaked by adjusting the *Buffer space*. This is the same kind of "buffer" used in MolSolvator to avoid clashes when solvating.
+
+When the system is ultimately exported, the solute will be written first, followed by the molecules that have been painted using MolPainter.
+
+
+The new *Insert Solutes* button has the following fields
+
+* **Path** path to a PDB file of the solute you want to add. There can only be one solute in the system at a time!
+* **Buffer space (Å)** the length of the buffer added to obstruct more cells neighboring coordinates of the solute.
+* **Center solute at z (Å)** centers the (x,y,z) coordinates of the solute to the center of the MolPainter grid at a particular plane in the z-dimension.
+* **Expand grid to fit solute** expands the MolPainter grid to fit the (x,y,z) coordinates of the solute system. If the solute system has negative coordinates, these coordinates will still lay outside of the MolPainter canvases!
+
+
 
 ## Give it a try!
 
