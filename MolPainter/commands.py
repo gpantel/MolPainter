@@ -152,8 +152,11 @@ class Commands:
                 self.project.add_layer(newlayer)
             # New solute import feature. Suppress errors for backward compatibility.
             try:
-                if proj['import_solute']:
-                    self.project.edit_solute_settings(proj['import_solute'], proj['solute_buffer_space'], proj['solute_z'])
+                if proj['settings']['import_solute']:
+                    solute_path = proj['settings']['import_solute']
+                    if not self.file_exists(solute_path):
+                        solute_path = os.path.join(os.path.dirname(path), os.path.basename(solute_path))
+                    self.project.edit_solute_settings(solute_path, proj['settings']['solute_buffer_space'], proj['settings']['solute_z'])
                     try:
                         self.project.load_solute(False)
                     except Exception as e:
@@ -510,5 +513,7 @@ class Commands:
         """
         Command to import a PDB system that will be merged with the current project
         """
+        if self.project.import_solute is not None:
+            self.importfilevar.set(self.project.import_solute)
         import_popup = tk.Toplevel(self.gui)
         SoluteImporter(self.project, self.importfilevar, import_popup)
