@@ -76,7 +76,7 @@ class Project():
         self.blender_count = 0
         self.blender_offset = 1000
         self.import_solute = None
-        self.solute_buffer_space = 5
+        self.solute_buffer_space = 3
         self.solute_z = None
 
         self.layers = []
@@ -298,7 +298,7 @@ class Project():
             for row in n_range_y:
                 for col in n_range_x:
                     if (row >= 0) and (row < layer.lattice.shape[0]) and (col >= 0) and (col < layer.lattice.shape[1]):
-                        layer.lattice[row][col] = -1
+                        np.flip(layer.lattice.swapaxes(0,1), axis=1)[col][row] = -1
 
     def remove_overlay(self, layer):
         """
