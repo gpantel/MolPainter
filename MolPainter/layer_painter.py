@@ -144,7 +144,7 @@ class LayerPainter(tk.Frame):
                                                 int(((row+1)*self.virtual_spacing))))
 
     def count_molecules(self):
-        number_of_molecules_in_layer = np.count_nonzero(self.master.zlayer.lattice)
+        number_of_molecules_in_layer = len(np.where(self.master.zlayer.lattice > 0)[0])
         molecules = self.master.master.master.master.mlist.molecules
         for i in range(1,len(molecules)):
             number_of_molecule = len(np.where(self.master.zlayer.lattice == molecules[i]["molecule"].index)[0])

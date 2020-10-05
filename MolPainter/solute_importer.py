@@ -29,8 +29,10 @@ class SoluteImporter(tk.Frame):
 
         self.centerbool = tk.BooleanVar()
         self.centervar = tk.StringVar()
-        self.centervar.set(self.project.layers[0].zdepth)
-        self.center_checkbox = tk.Checkbutton(self, text="Center solute at Z =", variable=self.centerbool)
+        self.centervar.set("0")
+        if self.project.solute_z is not None:
+            self.centervar.set(str(self.project.solute_z))
+        self.center_checkbox = tk.Checkbutton(self, text="Center solute at z "+ u"(\u212B)", variable=self.centerbool)
         self.center_checkbox.grid(row=2, column=1, columnspan=2, padx=2, pady=4, sticky=("W"))
         self.center_entry = tk.Entry(self, textvariable=self.centervar)
         self.center_entry.grid(row=2, column=3, padx=2, pady=4)
