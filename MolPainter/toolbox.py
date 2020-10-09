@@ -1,6 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import ttk
+from PIL import ImageTk, Image
 
 class Toolbox(tk.Frame):
     """
@@ -13,11 +14,11 @@ class Toolbox(tk.Frame):
 
         icondir = os.path.join(os.path.dirname(__file__), 'icons')
 
-        self.pencil_icon = tk.PhotoImage(file=os.path.join(icondir, 'pencil.png'))
-        self.rect_icon = tk.PhotoImage(file=os.path.join(icondir, 'square.png'))
-        self.spray_icon = tk.PhotoImage(file=os.path.join(icondir, 'spraycan.png'))
-        self.zoomin_icon = tk.PhotoImage(file=os.path.join(icondir, 'zoomin.png'))
-        self.zoomout_icon = tk.PhotoImage(file=os.path.join(icondir, 'zoomout.png'))
+        self.pencil_icon  = ImageTk.PhotoImage(Image.open(os.path.join(icondir, 'pencil.png')))
+        self.rect_icon    = ImageTk.PhotoImage(Image.open(os.path.join(icondir, 'square.png')))
+        self.spray_icon   = ImageTk.PhotoImage(Image.open(os.path.join(icondir, 'spraycan.png')))
+        self.zoomin_icon  = ImageTk.PhotoImage(Image.open(os.path.join(icondir, 'zoomin.png')))
+        self.zoomout_icon = ImageTk.PhotoImage(Image.open(os.path.join(icondir, 'zoomout.png')))
 
         self.btn_zoomout = tk.Button(self, image=self.zoomout_icon, command=self.master.cmds.zoom_out_action, height=40, width=40)
         self.btn_zoomin = tk.Button(self, image=self.zoomin_icon, command=self.master.cmds.zoom_in_action, height=40, width=40)
