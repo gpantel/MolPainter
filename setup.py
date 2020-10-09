@@ -16,6 +16,9 @@ setuptools.setup(
         'Topic :: Scientific/Engineering :: Chemistry',
     ],
     packages=["MolPainter", "MolSolvator"],
+    package_data={
+        "": ['icons/*.png'],
+    },
     install_requires=['numpy', 'scipy', 'toml', 'MDAnalysis'],
     entry_points={
         'console_scripts': [
