@@ -78,6 +78,8 @@ class Exporter(tk.Frame):
 
     def export_system(self):    
         layers = []
+        if self.project.import_solute != None:
+            layers.append(self.project.solute.atoms)
         for i in range(len(self.project.layers)):
             layers.append(self.constructionate_layer(self.project.layers[i]))
         layer = mda.Merge(*layers)
@@ -111,9 +113,6 @@ class Exporter(tk.Frame):
             lattice_xy_coordinates = self.map_lattice_to_xy_hexagons()
 
         all_pdb_molecule_groups = []
-        if self.project.import_solute != None:
-            all_pdb_molecule_groups.append(self.project.solute.atoms)
-
         for i in range(len(self.project.molecules)):
             molecule_id = self.project.molecules[i].index
             # swap the layer.lattice x,y coordinates, then flip the y-coordinates s.t. x > and y ^
