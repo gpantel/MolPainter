@@ -28,13 +28,13 @@ DispCorr                 = No
 ; Temperature coupling:
 tcoupl                   = berendsen
 tc-grps                  = memb solv
-tau_t                    = 2.0  2.0
+tau_t                    = 1.0  1.0
 ref_t                    = 295 295
 
 ; Pressure coupling:
 Pcoupl                   = berendsen
-Pcoupltype               = isotropic
-tau_p                    = 4.0    
+Pcoupltype               = semiisotropic
+tau_p                    = 2.0    
 compressibility          = 3e-4 3e-4
 ref_p                    = 1.0  1.0   
 
