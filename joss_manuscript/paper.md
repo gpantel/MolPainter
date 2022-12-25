@@ -24,7 +24,7 @@ bibliography: paper.bib
 ---
 
 # Summary
-![](figures/MolPainterGraphic.png#center)
+![](figures/MolPainterGraphic.png#center){width=80%}
 
 MolPainter presents the metaphor of painting as an abstraction for the construction of complex molecular systems. In particular, systems whose equilibrium states exhibit distinctive visual artifacts can be intentionally crafted through interactive, visually-oriented molecule placement. This is in contrast to non-interactive methods, which allow neither manual placement of molecules nor visual confirmation of desired states. The principal use-case is presented for modelling lipid bilayers, though MolPainter may be used to construct any layered molecular system.
 
