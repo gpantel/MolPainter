@@ -1,13 +1,13 @@
 ---
 title: 'MolPainter: A Tool for Painting and Solvating Layered Molecular Systems'
 tags:
-  - Python
-  - Molecular Dynamics
-  - Lipid Bilayers
+  - python
+  - molecularDynamics
+  - lipidBilayers
 authors:
   - name: George A. Pantelopulos
     orcid: 0000-0002-4373-1677
-    affiliation: "1,2" # (Multiple affiliations must be quoted)
+    affiliation: "1,2"
     corresponding: true
   - name: Aaron Liberatore
     affiliation: 3
@@ -19,10 +19,11 @@ affiliations:
  - name: Independent Researcher, USA
    index: 3
 date: 25 December 2022
-#bibliography: paper.bib
+bibliography: paper.bib
+
+---
 
 # Summary
-
 ![](figures/MolPainterGraphic.png)
 
 MolPainter presents the metaphor of painting as an abstraction for the construction of complex molecular systems. In particular, systems whose equilibrium states exhibit distinctive visual artifacts can be intentionally crafted through interactive, visually-oriented molecule placement. This is in contrast to non-interactive methods, which allow neither manual placement of molecules nor visual confirmation of desired states. The principal use-case is presented for modelling lipid bilayers, though MolPainter may be used to construct any layered molecular system.
@@ -66,11 +67,11 @@ Systems in MolPainter are represented by one or more layers. Each layer is repre
 Each layer is characterized by a grid which serves as a "canvas" for (I) precise placement (painting) of molecules in space relative to other molecules and (II) the precise counting of molecules while painting the grid. Each cell in the grid is a square cell with a length given in angstroms, defined as the cell spacing (Figure \autoref{Fig:Figure2}.B). The width (X-axis) and the height (Y-axis) of the grid is defined by the number of cells in each dimension. It should be noted that the grid is only for relative spatial placement and that there is no representation of the underlying geometry of the molecules.
 
 ### Molecules
-Molecules are the primary input of the application and are configurable both in terms of how they are represented in the painting process and how they are generated in the exported system. For painting purposes, each molecule is assigned a name and a color, which serve to identify it among other molecules. Within each layer, the number and mol\% of each molecule is tracked with a counter. This enables construction of a system with a desired amount or ratio of different molecule types.
+Molecules are the primary input of the application and are configurable both in terms of how they are represented in the painting process and how they are generated in the exported system. For painting purposes, each molecule is assigned a name and a color, which serve to identify it among other molecules. Within each layer, the number and mol % of each molecule is tracked with a counter. This enables construction of a system with a desired amount or ratio of different molecule types.
 
 For system construction (export) purposes, each molecule is associated with a PDB file and a set of optional rotational transformations to be applied during export. The PDB file is read during export and its entire contents are replicated for each instance (painted cell) of that molecule in the painting (Figure \autoref{Fig:Figure2}.C). The X and Y coordinates of the painted cell are determined by its placement in the grid; its Z coordinate is determined by the Z coordinate of the containing layer. When exporting, the X, Y, and Z coordinates of each molecule are translationally transformed to align with the X, Y, and Z coordinates of each painted cell.
 
-The coordinates of each molecule can be transformed by rotating 180\si{\degree} over the X-axis. This transformation is uniformly applied to each painted instance of the molecule type. The molecules can also be randomly rotated around the Z-axis. This transformation is applied with a new random value for each painted instance of the molecule type. The transformations can be used for such purposes as flipping lipids to form bilayers and randomly rotating the orientations of proteins in the XY-plane.
+The coordinates of each molecule can be transformed by rotating 180$^\circ$ over the X-axis. This transformation is uniformly applied to each painted instance of the molecule type. The molecules can also be randomly rotated around the Z-axis. This transformation is applied with a new random value for each painted instance of the molecule type. The transformations can be used for such purposes as flipping lipids to form bilayers and randomly rotating the orientations of proteins in the XY-plane.
 
 Upon exporting, the topological data from the PDB file of each molecule is employed to assign atom numbers and residue indices of each atom in the system, ordered by the appearance of each molecule type in the palette. The coordinates of the system can be exported in a square or hexagonal lattice, wherein the hexagonal lattice is defined by shifting Y-axial positions of cells in every other X-axial column up by one-half the cell spacing.
 
@@ -78,7 +79,7 @@ Upon exporting, the topological data from the PDB file of each molecule is emplo
 Within the PDB file a single atom or multiple atoms (for which the average position is taken) can be assigned as an "anchor point" for aligning the Z coordinates of each molecule with the Z coordinate of each layer. These Z-axial alignment atoms are defined by providing a value of "1" in the B-factor field of the PDB file (Figure \autoref{Fig:Figure2}.D). If no atoms are assigned for anchoring, the average Z-axial position of all atom coordinates in the molecule will be used to determine the anchor point.
 
 ### The Palette
-The palette is used to select molecule types to be painted. The palette initially contains the empty molecule and expands as the user configures additional molecule types. The tracking information for each molecule (number and mol\%) is shown in the palette for quick reference.
+The palette is used to select molecule types to be painted. The palette initially contains the empty molecule and expands as the user configures additional molecule types. The tracking information for each molecule (number and mol %) is shown in the palette for quick reference.
 
 ### Painting Tools
 There are three painting tools available. By clicking on the icon or using shortcuts the user can use (I) the pencil tool (click+drag) to paint a single cell at a time, (II) the rectangle tool (ctrl+click+drag) to paint a rectangular selection of the grid, and (III) the spray can (shift+click+drag) to paint multiple cells around the cursor based on the spray radius (Figure \autoref{Fig:Figure2}.E). Erasing is performed by selecting the "empty" molecule type and using any of the aforementioned drawing tools to paint the corresponding cells with no molecule.
