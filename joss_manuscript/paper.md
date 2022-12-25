@@ -14,7 +14,7 @@ authors:
 affiliations:
  - name: Department of Chemistry, Boston University, Boston, Massachusetts, USA
    index: 1
- - name: aboratory of Chemical Physics, National Institute of Diabetes and Digestive and Kidney Diseases, National Institutes of Health, Bethesda, Maryland, USA
+ - name: Laboratory of Chemical Physics, National Institute of Diabetes and Digestive and Kidney Diseases, National Institutes of Health, Bethesda, Maryland, USA
    index: 2
  - name: Independent Researcher, USA
    index: 3
@@ -24,9 +24,9 @@ bibliography: paper.bib
 ---
 
 # Summary
-![](figures/MolPainterGraphic.png#center){width=80%}
+![](figures/MolPainterGraphic.png)
 
-MolPainter presents the metaphor of painting as an abstraction for the construction of complex molecular systems. In particular, systems whose equilibrium states exhibit distinctive visual artifacts can be intentionally crafted through interactive, visually-oriented molecule placement. This is in contrast to non-interactive methods, which allow neither manual placement of molecules nor visual confirmation of desired states. The principal use-case is presented for modelling lipid bilayers, though MolPainter may be used to construct any layered molecular system.
+MolPainter presents the metaphor of painting as an abstraction for the construction of complex layered molecular systems. In particular, systems whose equilibrium states exhibit distinctive visual artifacts can be intentionally crafted through interactive, visually-oriented molecule placement. This is in contrast to non-interactive methods, which allow neither manual placement of molecules nor visual confirmation of desired states. The principal use-case is presented for modelling lipid bilayers with molecular dynamics simulation, though MolPainter may be used to construct any layered molecular system provided appropriate PDB-format files to define molecules.
 
 # Statement of Need
 
