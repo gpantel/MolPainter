@@ -52,10 +52,6 @@ Several plaintext formats are used to facilitate human editing of project files 
 
 ## MolPainter
 
-Each layer is characterized by a grid which serves as a "canvas" for (I) precise placement (painting) of molecules in space relative to other molecules and (II) the precise counting of molecules while painting the grid. Each cell in the grid is a square cell with a length given in angstroms, defined as the cell spacing. The width (X-axis) and the height (Y-axis) of the grid is defined by the number of cells in each dimension.
-
-It should be noted that the grid is only for relative spatial placement and that there is no representation of the underlying geometry of the molecules.
-
 ![MolPainter components and functions. (A) *n* layers defined at assigned z-axial coordinates in angstrom units. (B) the grid used to define the xy-plane position of each lipid in terms of a cell spacing in angstrom units and number of cells in the x- and y-dimension. (C) The molecules are defined by PDB files supplied by the user. (D) Anchor points, defined in PDB files using B-factors of 1.00, define where the centroid of all anchor points z-axially align into the grid layer pained upon. (E) The canvas holds labels of each molecule painted onto xy-positions in each grid on each layer via various painting tools, such as the spray can. (G) Solutes can be inserted to the canvas, such as the C99 protein monomer shown here,[@Pantelopulos2022] obfuscating cells across multiple grid layers to prevent clashes with painted molecules.\label{fig:Figure2}](figures/Figure2.png)
 
 ### Layers
