@@ -60,16 +60,12 @@ The MolSolvator command line tool *molsolvator* is run with a handful of options
 * **solute** Path to a PDB file of the system to be solvated, prepared by MolPainter or otherwise.
 * **output** Path for the output system following solvation.
 * **[solute_lattice]**
-<ul>
-  <li>**shape** "hex" or "square", determines dimensions of XY-plane.</li>
-  <li>**width** Number of cells in the X-dimension describing the solute system.</li>
-  <li>**height** Number of cells in the Y-dimension describing the solute system.</li>
- <li> **spacing** Cell spacing defining the solute system in angstroms.</li>
-</ul>
+  * **shape** "hex" or "square", determines dimensions of XY-plane.
+  * **width** Number of cells in the X-dimension describing the solute system.
+  * **height** Number of cells in the Y-dimension describing the solute system.
+ * **spacing** Cell spacing defining the solute system in angstroms.
 * **[solvent_molecules]**
-<ul>
-  <li>**paths** Cell spacing defining the solvent cells in angstroms.</li>
-  <li>**numbers** Number of each solvent given in \textbf{paths} to insert to solvent cells, in order.</li>
-  <li>**max_iterations** Number of attempts to re-insert a molecule to available cells before aborting.</li>
-  <li>**rotate** "true" or "false" enabling three-dimensional rotation solvent molecules in each insertion attempt.</li>
-</ul>
+  * **paths** Cell spacing defining the solvent cells in angstroms.
+  * **numbers** Number of each solvent given in \textbf{paths} to insert to solvent cells, in order.
+  * **max_iterations** Number of attempts to re-insert a molecule to available cells before aborting.
+  * **rotate** "true" or "false" enabling three-dimensional rotation solvent molecules in each insertion attempt.
