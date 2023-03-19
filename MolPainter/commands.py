@@ -12,6 +12,7 @@ from .grid_configurator import GridConfigurator
 from .proj_saver import ProjSaver
 from .exporter import Exporter
 from .solute_importer import SoluteImporter
+from .about_dialog import AboutDialog
 
 
 class Commands:
@@ -517,3 +518,10 @@ class Commands:
             self.importfilevar.set(self.project.import_solute)
         import_popup = tk.Toplevel(self.gui)
         SoluteImporter(self.project, self.importfilevar, import_popup)
+
+    def help_about_action(self):
+        """
+        Command to show a helpful dialog with documentation links
+        """
+        help_about_popup = tk.Toplevel(self.gui)
+        AboutDialog(help_about_popup)

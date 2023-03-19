@@ -16,7 +16,7 @@ class CmdBar(tk.Frame):
         self.colindex = 0
 
         self.btn_new = tk.Button(self, text="New", command=self.master.cmds.new_project_action)
-        self.btn_open = tk.Button(self, text="Open Painting", command=self.master.cmds.load_project_action)
+        self.btn_open = tk.Button(self, text="Load Painting", command=self.master.cmds.load_project_action)
         self.btn_save = tk.Button(self, text="Save Painting", command=self.master.cmds.save_project_action)
         self.btn_export = tk.Button(self, text="Export System", command=self.master.cmds.export_action)
         self.btn_import = tk.Button(self, text="Import Solute", command=self.master.cmds.import_solute_action)
@@ -27,6 +27,7 @@ class CmdBar(tk.Frame):
         # self.btn_zoomout = tk.Button(self, text="Zoom Out", command=self.master.cmds.zoom_out_action)
         # self.btn_zoomin = tk.Button(self, text="Zoom In", command=self.master.cmds.zoom_in_action)
         #self.btn_solvents = tk.Button(self, text="Solvents", command=self.master.cmds.no_action)
+        self.btn_about = tk.Button(self, text="About", command=self.master.cmds.help_about_action)
         
         self.btn_new.grid(column=self.col, row=0, columnspan=1, rowspan=1)
         self.btn_open.grid(column=self.col, row=0, columnspan=1, rowspan=1)
@@ -40,6 +41,7 @@ class CmdBar(tk.Frame):
         # self.btn_zoomout.grid(column=self.col, row=0, columnspan=1, rowspan=1)
         # self.btn_zoomin.grid(column=self.col, row=0, columnspan=1, rowspan=1)
         # self.btn_solvents.grid(column=self.col, row=0, columnspan=1, rowspan=1)
+        self.btn_about.grid(column=self.col, row=0, columnspan=1, rowspan=1)
     
     @property
     def col(self):

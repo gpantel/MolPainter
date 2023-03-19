@@ -37,6 +37,7 @@ class LayerPainter(tk.Frame):
         self.fine_gridlines()
         self.guiding_gridlines()
 
+        self.canvas.bind("<ButtonPress-1>", self.paint_action) # initial left click
         self.canvas.bind("<B1-Motion>", self.paint_action) # left click, dragged
 
         # bindings for selection rectangle, activated holding ctrl
