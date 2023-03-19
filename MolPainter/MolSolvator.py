@@ -168,9 +168,9 @@ def insert_to_random_empty_point(path, solvent_lattice, solvent_molecule_id, sol
             raise Exception('Failed to insert to lattice after max_interations!')
         return solvent_lattice, rotation_matrix
 
-def main():
+def parse_and_initialize():
     """
-    MolSolvator entirely from here
+    This parses command line arguments
     """
     parser = argparse.ArgumentParser(description='Read in the TOML-format input file')
     parser.add_argument("-i", "--input", type=str, help='TOML-format input file')
@@ -203,21 +203,14 @@ def main():
         if os.path.isfile(inputs['solvent_molecules']['paths'][i]) == False:
             raise Exception('The input file %s does not exist'%inputs['solvent_molecules']['paths'][i])
     if 'seed' in inputs['solvent_molecules']:
-        np.random.seed(inputs['solvent_molecules']['seed'])
-
-    # 1) Load the solute to be solvated into a universe
-    # the warning messages about missing topology information are typically benign
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        u = mda.Universe(inputs['solute'])
-    layers_positions = u.atoms.positions
+        seed = inputs['solvent_molecules']['seed']
     
-    # 2) Define lattice_width and lattice_height coming from the canvas
+    # 1) Define lattice_width and lattice_height coming from the canvas
     lattice_width = inputs['solute_lattice']['width'] # e.g. 32 angstroms
     lattice_height = inputs['solute_lattice']['height'] # e.g. 16 angstroms
     lattice_spacing = inputs['solute_lattice']['spacing'] # e.g. 8 angstroms
     
-    # 3) Define solvent lattice spacing
+    # 2) Define solvent lattice spacing
     solvent_lattice_spacing = inputs['solvent_lattice']['spacing']# e.g. 5 angstroms
     solvent_lattice_buffer  = inputs['solvent_lattice']['buffer'] # e.g. 4 angstroms
     
@@ -228,16 +221,56 @@ def main():
     solvent_z2 = inputs['solvent_lattice']['upper_z_position'] # e.g. 72 angstroms
     solvent_lattice_depth = int(np.abs(solvent_z2 - solvent_z1)//solvent_lattice_spacing)
 
-    # 4) Set the boolean for rotation
+    # 3) Set the booleans for rotation, centerc, zeroz
+    # and set the number of attempted reinsertion interations
     if inputs['solvent_molecules']['rotate'] == True:
         rotation_boolean = True
     elif inputs['solvent_molecules']['rotate'] == False:
         rotation_boolean = False
     else:
         raise Exception("Set 'rotate' under 'solvent molecules' to true or false")
+    if args.centerc == True:
+        centerc_boolean = True
+    else:
+        centerc_boolean = False
+    if args.zeroz == True:
+        zeroz_boolean = True
+    else:
+        zeroz_boolean = False
     max_iterations = inputs['solvent_molecules']['max_iterations']
 
-    # 4) Make and array to contain solvent molecule IDs, where "0" is Empty, generate the lattice
+    # 4) Get list of paths to solute and solvent PDB files, number of solvents to insert, and output pdb path
+    solute_pdb_path = inputs['solute']
+    solvent_pdb_paths = []
+    num_solvents = []
+    for i in range(len(inputs['solvent_molecules']['paths'])):
+        solvent_pdb_paths.append(inputs['solvent_molecules']['paths'][i])
+        num_solvents.append(inputs['solvent_molecules']['numbers'][i])
+    output_pdb_path = inputs['output']
+
+    return solute_pdb_path, solvent_pdb_paths, num_solvents, output_pdb_path,\
+           lattice_width, lattice_height, lattice_spacing,\
+           solvent_lattice_spacing, solvent_lattice_buffer, solvent_lattice_width, solvent_lattice_height,\
+           solvent_z1, solvent_z2, solvent_lattice_depth,\
+           rotation_boolean, centerc_boolean, zeroz_boolean, max_iterations
+
+def solvate_and_export(solute_pdb_path, solvent_pdb_paths, num_solvents, output_pdb_path,\
+                       lattice_width, lattice_height, lattice_spacing,\
+                       solvent_lattice_spacing, solvent_lattice_buffer, solvent_lattice_width, solvent_lattice_height,\
+                       solvent_z1, solvent_z2, solvent_lattice_depth,\
+                       rotation_boolean, centerc_boolean, zeroz_boolean, max_iterations, seed=None):
+    """
+    Builds the solvent system and exports it
+    """
+    # 0) set seed for random number generation if specified
+    if seed != None: np.random.seed(seed)
+    # 1) import solute and ignore typically benign warnings about missing topology information
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        solute_universe = mda.Universe(solute_pdb_path)
+        layers_positions = solute_universe.atoms.positions
+
+    # 2) Make and array to contain solvent molecule IDs, where "0" is Empty, generate the lattice
     # 3-dimensional array specifying molecule IDs of each lattice point
     solvent_lattice = np.zeros((solvent_lattice_width,solvent_lattice_height,solvent_lattice_depth)).astype('int')
     # 4-dimensional array specifying positions of each lattice point
@@ -250,7 +283,7 @@ def main():
                 z = (k*solvent_lattice_spacing)+solvent_z1
                 solvent_lattice_xyz_coordinates[i][j][k] = np.array([x,y,z])
     
-    # 5) Mark cells in the array as -1000 if molecules in the layers are within "lattice_spacing" distance of points
+    # 3) Mark cells in the array as -1000 if molecules in the layers are within "lattice_spacing" distance of points
     # Check to see if any lattice site is within solvent_lattice_buffer distance to the solute -- if it is, mark the cell with -1000
     solvent_lattice_sites = np.where(solvent_lattice == 0)
     for i in range(len(solvent_lattice_sites[0])):
@@ -259,10 +292,10 @@ def main():
             solvent_lattice[solvent_lattice_sites[0][i]][solvent_lattice_sites[1][i]][solvent_lattice_sites[2][i]] = -1000
 
     solvent_groups = []
-    for i in range(len(inputs['solvent_molecules']['paths'])):
+    for i in range(len(solvent_pdb_paths)):
         solvent_molecule_id = i+1
-        path = inputs['solvent_molecules']['paths'][i]
-        num_solvent = inputs['solvent_molecules']['numbers'][i]
+        path = solvent_pdb_paths[i]
+        num_solvent = num_solvents[i]
         print('Inserting %i molecules of '%(num_solvent) + path)
         solvent_universe = create_solvent_universe(path, solvent_molecule_id, num_solvent)
         rotation_matrices = []
@@ -274,29 +307,39 @@ def main():
         solvent_groups.append(solvent_universe.atoms)
     
     all_solvent_universe = mda.Merge(*solvent_groups)
-    full_universe = mda.Merge(u.atoms, all_solvent_universe.atoms)
-    
+    full_universe = mda.Merge(solute_universe.atoms, all_solvent_universe.atoms)
+
     # translate output coordinates if flags are defined
-    if args.centerc == True:
+    if centerc_boolean == True:
         xyz = np.copy(full_universe.atoms.positions)
         xyz[:,0] -= np.mean(xyz[:,0])
         xyz[:,1] -= np.mean(xyz[:,1])
         xyz[:,2] -= np.mean(xyz[:,2])
         full_universe.atoms.positions = xyz
-    if args.zeroz == True:
+    if zeroz_boolean == True:
         xyz = np.copy(full_universe.atoms.positions)
         xyz[:,2] = (xyz[:,2] - np.amin(xyz[:,2])) + (solvent_lattice_spacing/2.)
         full_universe.atoms.positions = xyz
-    
+
     xedge = np.amax(full_universe.atoms.positions[:,0]) - np.amin(full_universe.atoms.positions[:,0]) + solvent_lattice_spacing/2.
     yedge = np.amax(full_universe.atoms.positions[:,1]) - np.amin(full_universe.atoms.positions[:,1]) + solvent_lattice_spacing/2.
     zedge = np.amax(full_universe.atoms.positions[:,2]) - np.amin(full_universe.atoms.positions[:,2]) + solvent_lattice_spacing/2.
-    
+
     full_universe.dimensions = np.array([xedge, yedge, zedge, 90., 90., 90.])
     # Write the final solvated system. Ignoring warnings to typically benign messages about missing topology information.
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        full_universe.atoms.write(inputs['output'], bonds=None)
+        full_universe.atoms.write(output_pdb_path, bonds=None)
+
+import sys # @todo remove later
+def main():
+    """
+    Execute two main functions
+    """
+    np.set_printoptions(threshold=sys.maxsize) # @todo remove later
+    solvate_args = parse_and_initialize() # @todo remove later
+    print(*tuple(solvate_args))
+    solvate_and_export(*tuple(solvate_args), seed=0) # @todo remove seed later
 
 if __name__ == "__main__":
     main()

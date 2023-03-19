@@ -1,0 +1,5 @@
+./docs/tutorial/PDBfiles/solute+uppersolvent.pdb ['./docs/tutorial/PDBfiles/NA+.pdb', './docs/tutorial/PDBfiles/CL-.pdb', './docs/tutorial/PDBfiles/WF.pdb', './docs/tutorial/PDBfiles/W.pdb'] [54, 54, 501, 4511] ./solute+solvent_ref.pdb 32 16 8 5.3 5 48 24 -55 -16 7 False False False 1000
+Inserting 54 molecules of ./docs/tutorial/PDBfiles/NA+.pdb
+Inserting 54 molecules of ./docs/tutorial/PDBfiles/CL-.pdb
+Inserting 501 molecules of ./docs/tutorial/PDBfiles/WF.pdb
+Inserting 4511 molecules of ./docs/tutorial/PDBfiles/W.pdb
