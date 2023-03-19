@@ -5,6 +5,7 @@ import toml
 import argparse
 import warnings
 import os
+import MolPainter
 
 def rand_rotation_matrix():
     """
@@ -174,6 +175,7 @@ def main():
     parser.add_argument("-i", "--input", type=str, help='TOML-format input file')
     parser.add_argument("-centerc", action='store_true', help='Center system at (x,y,z) = (0,0,0) after solvation')
     parser.add_argument("-zeroz", action='store_true', help='Raise the system such that min(z) = solvent spacing / 2 after solvation')
+    parser.add_argument("-v", "--version", action='version', help='Print MolPainter version', version=str(MolPainter.__version__))
     args = parser.parse_args()
     
     inputs = toml.load(args.input)

@@ -3,7 +3,8 @@
 ## Table of Contents
 - [Introducing MolPainter and MolSolvator](#introducing-molpainter-and-molsolvator)
 - [Installation](#installation)
-- [MolPainter Usage](#molpainter-documentation)
+- [Dependencies](#dependencies)
+- [Documentation](#documentation)
 - [MolPainter Tutorial](#molpainter-tutorial)
 - [Give it a try!](#give-it-a-try)
 
