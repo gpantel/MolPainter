@@ -32,11 +32,17 @@ molpainter
 molsolvator -i input.toml
 ```
 
+### Dependencies
+
+MolPainter's GUI makes use of `tkinter` in order to provide a native interface on Linux, Mac, and Windows.
+
+The additional package dependencies are `numpy`, `scipy`, `toml`, and `MDAnalysis`.
+
 ## Documentation
 
 Descriptions of the objects and functions of MolPainter and MolSolvator are available [here](/docs/README.md)
 
-## Tutorial
+### Tutorial
 
 A tutorial demonstrating the major functions of MolPainter and MolSolvator on a complex mixture lipid bilayer is available [here](/docs/tutorial/README.md)
 

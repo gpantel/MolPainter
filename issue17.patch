@@ -1,0 +1,59 @@
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 522b2a7..be3b66a 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -25,5 +25,5 @@ You can contact us
+ 
+ # Let us promote your work using MolPainter!
+ 
+-* Please reach out to us an let us know about the cool work you've done!
+-* We would like to promote interesting systems constructed using MolPainter
+\ No newline at end of file
++* Please reach out to us and let us know about the cool work you've done!
++* We would like to promote interesting systems constructed using MolPainter.
+\ No newline at end of file
+diff --git a/README.md b/README.md
+index 6d2b0ee..d0887e8 100755
+--- a/README.md
++++ b/README.md
+@@ -32,11 +32,17 @@ molpainter
+ molsolvator -i input.toml
+ ```
+ 
++### Dependencies
++
++MolPainter's GUI makes use of `tkinter` in order to provide a native interface on Linux, Mac, and Windows.
++
++The additional package dependencies are `numpy`, `scipy`, `toml`, and `MDAnalysis`.
++
+ ## Documentation
+ 
+ Descriptions of the objects and functions of MolPainter and MolSolvator are available [here](/docs/README.md)
+ 
+-## Tutorial
++### Tutorial
+ 
+ A tutorial demonstrating the major functions of MolPainter and MolSolvator on a complex mixture lipid bilayer is available [here](/docs/tutorial/README.md)
+ 
+diff --git a/setup.py b/setup.py
+index abc72c6..e271baa 100755
+--- a/setup.py
++++ b/setup.py
+@@ -16,7 +16,7 @@ setuptools.setup(
+         'Topic :: Scientific/Engineering :: Bio-Informatics',
+         'Topic :: Scientific/Engineering :: Chemistry',
+     ],
+-    packages=['MolPainter', 'MolSolvator'],
++    packages=['MolPainter'],
+     package_data={
+         '': ['icons/*.png'],
+     },
+@@ -24,7 +24,7 @@ setuptools.setup(
+     entry_points={
+         'console_scripts': [
+             'molpainter=MolPainter.painter:main',
+-            'molsolvator=MolSolvator.MolSolvator:main',
++            'molsolvator=MolPainter.MolSolvator:main',
+         ],
+     },
+ )

@@ -25,5 +25,5 @@ You can contact us
 
 # Let us promote your work using MolPainter!
 
-* Please reach out to us an let us know about the cool work you've done!
-* We would like to promote interesting systems constructed using MolPainter
+* Please reach out to us and let us know about the cool work you've done!
+* We would like to promote interesting systems constructed using MolPainter.

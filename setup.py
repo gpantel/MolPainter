@@ -16,7 +16,7 @@ setuptools.setup(
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Topic :: Scientific/Engineering :: Chemistry',
     ],
-    packages=['MolPainter', 'MolSolvator'],
+    packages=['MolPainter'],
     package_data={
         '': ['icons/*.png'],
     },
@@ -24,7 +24,7 @@ setuptools.setup(
     entry_points={
         'console_scripts': [
             'molpainter=MolPainter.painter:main',
-            'molsolvator=MolSolvator.MolSolvator:main',
+            'molsolvator=MolPainter.MolSolvator:main',
         ],
     },
 )
