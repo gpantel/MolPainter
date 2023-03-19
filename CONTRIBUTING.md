@@ -3,6 +3,7 @@
 We thank you for using our project and we'd love to hear from you.
 
 Contributions may include, for example,
+
 * New tutorials
 * Additional functions for modifying molecules after painting
 * Taking input files and generating output files in different formats
