@@ -7,7 +7,7 @@
     },
     "molecules": [
         {
-            "path": "./tutorial/PDBfiles/DPPC.pdb",
+            "path": "./PDBfiles/DPPC.pdb",
             "name": "DPPC",
             "color": "#0432ff",
             "index": 1,
@@ -15,7 +15,7 @@
             "rotate": 0
         },
         {
-            "path": "./tutorial/PDBfiles/DIPC.pdb",
+            "path": "./PDBfiles/DIPC.pdb",
             "name": "DIPC",
             "color": "#ff2600",
             "index": 2,
@@ -23,7 +23,7 @@
             "rotate": 0
         },
         {
-            "path": "./tutorial/PDBfiles/CHOL.pdb",
+            "path": "./PDBfiles/CHOL.pdb",
             "name": "CHOL",
             "color": "#2ca02c",
             "index": 3,
@@ -31,7 +31,7 @@
             "rotate": 0
         },
         {
-            "path": "./tutorial/PDBfiles/DPPC.pdb",
+            "path": "./PDBfiles/DPPC.pdb",
             "name": "DPPC flip",
             "color": "#0096ff",
             "index": 4,
@@ -39,7 +39,7 @@
             "rotate": 0
         },
         {
-            "path": "./tutorial/PDBfiles/DIPC.pdb",
+            "path": "./PDBfiles/DIPC.pdb",
             "name": "DIPC flip",
             "color": "#ff7d78",
             "index": 5,
@@ -47,7 +47,7 @@
             "rotate": 0
         },
         {
-            "path": "./tutorial/PDBfiles/CHOL.pdb",
+            "path": "./PDBfiles/CHOL.pdb",
             "name": "CHOL flip",
             "color": "#72fa78",
             "index": 6,
