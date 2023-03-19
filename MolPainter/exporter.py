@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import filedialog
 import numpy as np
 import MDAnalysis as mda
+import warnings
 
 
 class Exporter(tk.Frame):
@@ -102,7 +103,10 @@ class Exporter(tk.Frame):
         # numer all residue IDs from 1 up to the number of molecules
         layer.residues.resids = np.arange(1,layer.residues.n_residues+1)
         destfile = self.exportfilevar.get()
-        layer.atoms.write(destfile)
+        # Do not print typically benign warnings from MDAnalysis about setting defaults
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            layer.atoms.write(destfile)
         self.statuslabel["text"] += "\nOutput saved as {}".format(destfile)
         return
 
@@ -127,7 +131,10 @@ class Exporter(tk.Frame):
                 path = os.path.join(os.path.dirname(self.projfilevar.get()), path)
             if not os.path.exists(path):
                 continue
-            pdbu = mda.Universe(path)
+            # Do not print typically benign warnings from MDAnalysis about setting defaults
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                pdbu = mda.Universe(path)
             if len(np.where(pdbu.atoms.tempfactors == 1)[0]) == 0:
                 head_indices = pdbu.atoms.indices
             else:
@@ -153,7 +160,8 @@ class Exporter(tk.Frame):
             molecule_universe.add_TopologyAttr('type', list(pdbu.atoms.types)*n_mols)
             molecule_universe.add_TopologyAttr('resnames', list(pdbu.atoms.residues.resnames)*n_mols)
             molecule_universe.add_TopologyAttr('resid', list(range(1, (n_residues)+1)))
-            molecule_universe.add_TopologyAttr('segid', [list(pdbu.atoms.segids)[0]])
+            molecule_universe.add_TopologyAttr('segid', list(np.unique(pdbu.atoms.segids)))
+            molecule_universe.add_TopologyAttr('chainID', list(pdbu.atoms.chainIDs)*n_mols)
             molecule_coordinates = []
 
             if self.project.molecules[i].flipbool == 1:
