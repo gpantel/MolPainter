@@ -1,13 +1,18 @@
-# Contributing to MolPainter
+# Contributing
 
 We thank you for using our project and we'd love to hear from you.
 
-# Asking for Help
+Contributions may include, for example,
+* New tutorials
+* Additional functions for modifying molecules after painting
+* Taking input files and generating output files in different formats
 
-You can email us at 
+# Contact
 
-* Open a discussion on GitHub
-* Email us
+You can contact us
+
+* Opening a discussion on GitHub
+* Contacting @gpantel via email
 
 # Reporting Issues
 
@@ -16,8 +21,7 @@ You can email us at
   ** The input PDB files you're using
   ** The operating system you're working on
   ** The parameters used for building the system
-
-# Making Changes
+** The version of MolPainter, MDAnalysis, and python
 
 # Let us promote your work using MolPainter!
 
