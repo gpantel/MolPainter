@@ -4,6 +4,7 @@ from scipy.spatial import distance
 import toml 
 import argparse
 import warnings
+import os
 
 def rand_rotation_matrix():
     """
@@ -193,6 +194,9 @@ def main():
     if 'rotate' not in inputs['solvent_molecules']: raise Exception('rotate missing from input file')
     if len(inputs['solvent_molecules']['paths']) != len(inputs['solvent_molecules']['numbers']):
         raise Exception('There should be an equal number of entries for paths and numbers of solent_molecules')
+    for i in range(len(inputs['solvent_molecules']['paths'])):
+        if os.path.isfile(inputs['solvent_molecules']['paths'][i]) == False:
+            raise Exception('The input file %s does not exist'%inputs['solvent_molecules']['paths'][i])
     
     # 1) Load the solute to be solvated into a universe
     # the warning messages about missing topology information are typically benign
