@@ -1,5 +1,5 @@
-solute = '././PDBfiles/solute.pdb'
-output = '././PDBfiles/solute+uppersolvent.pdb'
+solute = './PDBfiles/solute.pdb'
+output = './PDBfiles/solute+uppersolvent.pdb'
 
 [solute_lattice]
 shape = 'hex' # "hex" or "square" solute lattice shape, corresponding to the MolPainter lattice

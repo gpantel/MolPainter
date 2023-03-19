@@ -51,6 +51,7 @@ def create_solvent_universe(path, solvent_molecule_id, n_residues):
     solvent_universe.add_TopologyAttr('resnames', list(solvu.atoms.residues.resnames)*n_residues)
     solvent_universe.add_TopologyAttr('resid', list(range(1, (n_residues)+1)))
     solvent_universe.add_TopologyAttr('segid', [solvu.atoms.segids[0]])
+    solvent_universe.add_TopologyAttr('chainID', list(solvu.atoms.chainIDs)*n_residues)
     solvent_coordinates = np.concatenate(np.array([solvu.atoms.positions]*n_residues))
     return solvent_universe
 
@@ -178,6 +179,8 @@ def main():
     parser.add_argument("-v", "--version", action='version', help='Print MolPainter version', version=str(MolPainter.__version__))
     args = parser.parse_args()
     
+    if args.input == None:
+        raise Exception('MolSolvator requires an input file passed to it through the -i flag. See -h for input options.')
     inputs = toml.load(args.input)
     
     if 'solute' not in inputs: raise Exception('solute missing from input file')
@@ -199,7 +202,9 @@ def main():
     for i in range(len(inputs['solvent_molecules']['paths'])):
         if os.path.isfile(inputs['solvent_molecules']['paths'][i]) == False:
             raise Exception('The input file %s does not exist'%inputs['solvent_molecules']['paths'][i])
-    
+    if 'seed' in inputs['solvent_molecules']:
+        np.random.seed(inputs['solvent_molecules']['seed'])
+
     # 1) Load the solute to be solvated into a universe
     # the warning messages about missing topology information are typically benign
     with warnings.catch_warnings():
@@ -230,7 +235,6 @@ def main():
         rotation_boolean = False
     else:
         raise Exception("Set 'rotate' under 'solvent molecules' to true or false")
-
     max_iterations = inputs['solvent_molecules']['max_iterations']
 
     # 4) Make and array to contain solvent molecule IDs, where "0" is Empty, generate the lattice
