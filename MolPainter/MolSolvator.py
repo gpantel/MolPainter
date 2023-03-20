@@ -252,7 +252,7 @@ def parse_and_initialize():
            lattice_width, lattice_height, lattice_spacing,\
            solvent_lattice_spacing, solvent_lattice_buffer, solvent_lattice_width, solvent_lattice_height,\
            solvent_z1, solvent_z2, solvent_lattice_depth,\
-           rotation_boolean, centerc_boolean, zeroz_boolean, max_iterations
+           rotation_boolean, centerc_boolean, zeroz_boolean, max_iterations, seed
 
 def solvate_and_export(solute_pdb_path, solvent_pdb_paths, num_solvents, output_pdb_path,\
                        lattice_width, lattice_height, lattice_spacing,\
@@ -331,15 +331,12 @@ def solvate_and_export(solute_pdb_path, solvent_pdb_paths, num_solvents, output_
         warnings.simplefilter("ignore")
         full_universe.atoms.write(output_pdb_path, bonds=None)
 
-import sys # @todo remove later
 def main():
     """
     Execute two main functions
     """
-    np.set_printoptions(threshold=sys.maxsize) # @todo remove later
-    solvate_args = parse_and_initialize() # @todo remove later
-    print(*tuple(solvate_args))
-    solvate_and_export(*tuple(solvate_args), seed=0) # @todo remove seed later
+    solvate_args = parse_and_initialize()
+    solvate_and_export(*tuple(solvate_args))
 
 if __name__ == "__main__":
     main()

@@ -22,7 +22,7 @@ class MockCommands(Commands):
         return None
 
 
-class TestMolPainterLoadAndExport:
+class TestMolPainter:
     """
     This represents an end to end test that loads a project and exports the resulting system. 
     """
