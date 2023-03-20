@@ -4,6 +4,7 @@
 - [Introducing MolPainter and MolSolvator](#introducing-molpainter-and-molsolvator)
 - [Installation](#installation)
 - [Dependencies](#dependencies)
+- [Test Dependencies](#test-dependencies)
 - [Documentation](#documentation)
 - [MolPainter Tutorial](#molpainter-tutorial)
 - [Give it a try!](#give-it-a-try)
@@ -46,7 +47,7 @@ Tests can be run with `pytest` from the root of the source tree:
 python3 -m pytest
 ```
 
-## Documentation
+### Documentation
 
 Descriptions of the objects and functions of MolPainter and MolSolvator are available [here](/docs/README.md)
 
@@ -63,7 +64,6 @@ Let's say for example you wish to use MolPainter to paint lipids around one or m
 Now you can *Insert a Solute* into MolPainter canvases. A solute will "obstruct" cells in the layers of MolPainter,  making them unavailable for painting, based on the real coordinates of the Solute system described in the input PDB file. Just how far these obstructed cells extend from the coordinates of the Solute can be tweaked by adjusting the *Buffer space*. This is the same kind of "buffer" used in MolSolvator to avoid clashes when solvating.
 
 When the system is ultimately exported, the solute will be written first, followed by the molecules that have been painted using MolPainter.
-
 
 The new *Insert Solutes* button has the following fields
 
