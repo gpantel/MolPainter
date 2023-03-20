@@ -69,7 +69,7 @@ class Project():
         self.lattice_height = 25
         self.lattice_spacing = 8
         self.lattice_major_gridlines = 5
-        self.layer_count = 1
+        self.layer_count = 0
         self.molecule_count = 0
         self.solvent_molecule_count = 0
         self.solvent_layer_count = 0
@@ -109,7 +109,7 @@ class Project():
         """
         layer = ZLayer()
         layer.lattice = np.zeros((self.lattice_height, self.lattice_width), dtype='int')
-        layer.name = "Layer {}".format(self.layer_count)
+        layer.name = "Layer {}".format(self.layer_count + 1)
         layer.zdepth = 0
 
         return layer

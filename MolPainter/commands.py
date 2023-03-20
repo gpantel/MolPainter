@@ -12,6 +12,7 @@ from .grid_configurator import GridConfigurator
 from .proj_saver import ProjSaver
 from .exporter import Exporter
 from .solute_importer import SoluteImporter
+from .about_dialog import AboutDialog
 
 
 class Commands:
@@ -21,6 +22,7 @@ class Commands:
     def __init__(self, gui, project):
         self.gui=gui
         self.project=project
+        self.workspace_path = os.path.expanduser('~')
 
         self.layername = tk.StringVar()
         self.layerdepth = tk.StringVar()
@@ -97,65 +99,16 @@ class Commands:
         path = self.projfilevar.get()
         if not self.file_exists(path):
             return
+        self.workspace_path = os.path.dirname(path)
         with open(path, "r") as projfile:
             proj = json.load(projfile)
-            self.project.init_defaults()
-            self.gui.mlist.molecules = []
-            self.gui.mlist.blends = []
-            self.gui.drawarea.layers = []
-            self.gui.drawarea.forget_all_layers()
-            empty_molecule = Molecule()
-            self.project.add_molecule(empty_molecule)
-            self.gui.molecule_created(empty_molecule)
-            self.project.edit_lattice_params(
-                proj['settings']['lattice_width'],
-                proj['settings']['lattice_height'],
-                proj['settings']['lattice_spacing'],
-                proj['settings']['lattice_major_gridlines']
-                )
-            for mol in proj['molecules']:
-                newmol = Molecule()
-                newmol.name = mol['name']
-                newmol.color = mol['color']
-                newmol.index = mol['index']
-                newmol.flipbool = mol['flip']
-                newmol.rotatebool = mol['rotate']
-                newmol.path = mol['path']
-                if newmol.path and not self.file_exists(newmol.path):
-                    # Validation of paths - first check if a copy is included
-                    # in the project location, then prompt the user to select
-                    # a file if it could not be determined.
-                    fname = os.path.basename(newmol.path)
-                    copied_file = os.path.join(os.path.dirname(path), fname)
-                    if not self.file_exists(copied_file):
-                        confirm = tk.messagebox.askyesno(message="The path '{}' does not exist for molecule '{}'. Do you want to select a new path for '{}'?".format(newmol.path, newmol.name, newmol.name))
-                        if confirm:
-                            newmol.path = tk.filedialog.askopenfilename(initialdir = os.path.dirname(path), title = "Select file",filetypes = (("PDB file","*.pdb"),("all files","*.*")))
-                self.project.add_molecule(newmol)
-                self.gui.molecule_created(newmol)
-            for blend in proj['blenders']:
-                newblend = Blender()
-                newblend.name = blend['name']
-                newblend.index = blend['index']
-                for key, val in blend['weights'].items():
-                    for mol in self.project.molecules:
-                        if mol.index == int(key):
-                            newblend.molecules[mol] = val
-                self.gui.blend_created(newblend)
-                self.project.add_blender(newblend)
-            for layer in proj['layers']:
-                newlayer = ZLayer()
-                newlayer.name = layer['name']
-                newlayer.zdepth = layer['zpos']
-                newlayer.lattice = np.array(layer['lattice'])
-                self.gui.layer_created(newlayer)
-                self.project.add_layer(newlayer)
+            self.load_project_from_save_data(proj)
             # New solute import feature. Suppress errors for backward compatibility.
             try:
                 if proj['settings']['import_solute']:
                     solute_path = proj['settings']['import_solute']
                     if not self.file_exists(solute_path):
-                        solute_path = os.path.join(os.path.dirname(path), os.path.basename(solute_path))
+                        solute_path = os.path.join(self.workspace_path, os.path.basename(solute_path))
                     self.project.edit_solute_settings(solute_path, proj['settings']['solute_buffer_space'], proj['settings']['solute_z'])
                     try:
                         self.project.load_solute(False)
@@ -165,7 +118,56 @@ class Commands:
             except KeyError:
                 pass
             self.gui.drawarea.refresh_tabs()
-            self.project.project_loaded()
+
+    def load_project_from_save_data(self, proj):
+        """
+        Steps to load a project from a saved data structure.
+        """
+        self.project.init_defaults()
+        self.gui.mlist.molecules = []
+        self.gui.mlist.blends = []
+        self.gui.drawarea.layers = []
+        self.gui.drawarea.forget_all_layers()
+        empty_molecule = Molecule()
+        self.project.add_molecule(empty_molecule)
+        self.gui.molecule_created(empty_molecule)
+        self.project.edit_lattice_params(
+            proj['settings']['lattice_width'],
+            proj['settings']['lattice_height'],
+            proj['settings']['lattice_spacing'],
+            proj['settings']['lattice_major_gridlines']
+            )
+        for mol in proj['molecules']:
+            newmol = Molecule()
+            newmol.name = mol['name']
+            newmol.color = mol['color']
+            newmol.index = mol['index']
+            newmol.flipbool = mol['flip']
+            newmol.rotatebool = mol['rotate']
+            newmol.path = mol['path']
+            if newmol.path and not self.file_exists(newmol.path):
+                newmol.path = self.fix_mol_import_path(newmol)
+            self.project.add_molecule(newmol)
+            self.gui.molecule_created(newmol)
+        for blend in proj['blenders']:
+            newblend = Blender()
+            newblend.name = blend['name']
+            newblend.index = blend['index']
+            for key, val in blend['weights'].items():
+                for mol in self.project.molecules:
+                    if mol.index == int(key):
+                        newblend.molecules[mol] = val
+            self.gui.blend_created(newblend)
+            self.project.add_blender(newblend)
+        for layer in proj['layers']:
+            newlayer = ZLayer()
+            newlayer.name = layer['name']
+            newlayer.zdepth = layer['zpos']
+            newlayer.lattice = np.array(layer['lattice'])
+            self.gui.layer_created(newlayer)
+            self.project.add_layer(newlayer)
+        
+        self.project.project_loaded()
 
     def file_exists(self, path):
         """
@@ -177,6 +179,28 @@ class Commands:
         except:
             exists = False
         return exists
+
+    def fix_mol_import_path(self, newmol):
+        """
+        Find the correct path when importing a molecule definition.
+        """
+        # Option 1: the molecule is a relative path from the workspace
+        relpath = os.path.join(self.workspace_path, newmol.path)
+        if self.file_exists(relpath):
+            return relpath
+
+        # Option 2: the molecule is in the workspace as a copy
+        fname = os.path.basename(newmol.path)
+        copied_file = os.path.join(self.workspace_path, fname)
+        if self.file_exists(copied_file):
+            return copied_file
+        else:
+            # Option 3: the user needs to specify where it is
+            confirm = tk.messagebox.askyesno(message="The path '{}' does not exist for molecule '{}'. Do you want to select a new path for '{}'?".format(newmol.path, newmol.name, newmol.name))
+            if confirm:
+                return tk.filedialog.askopenfilename(initialdir = self.workspace_path, title = "Select file",filetypes = (("PDB file","*.pdb"),("all files","*.*")))
+            else:
+                return None
 
     def grid_setup_action(self):
         """
@@ -517,3 +541,10 @@ class Commands:
             self.importfilevar.set(self.project.import_solute)
         import_popup = tk.Toplevel(self.gui)
         SoluteImporter(self.project, self.importfilevar, import_popup)
+
+    def help_about_action(self):
+        """
+        Command to show a helpful dialog with documentation links
+        """
+        help_about_popup = tk.Toplevel(self.gui)
+        AboutDialog(help_about_popup)

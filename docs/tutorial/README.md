@@ -53,13 +53,13 @@ The canvases in MolPainter are defined by a square grid (which can be transforme
 #### 3: Load the molecules into MolPainter.
 MolPainter molecules are objects with several features, including the molecule PDB file path (for exporting the painting), the molecule color (for painting), and options for transforming the molecule, like flipping it 180 degrees, turning it upside-down.
 
-Let’s load the DPPC, DIPC, and CHOL pdb files, making new *DPPC*, *DIPC*, and *CHOL* molecules represented by the colors blue, red, and green, respectively. An example for DPPC is shown in Figure 3.
+Let’s load the DPPC, DIPC, and CHOL pdb files, making new *DPPC*, *DIPC*, and *CHOL* molecules represented by the colors blue, red, and green, respectively using the *New Molecule* button. An example for DPPC is shown in Figure 3.
 
 ![Figure3](images/Figure3.png)</br>
 *Figure 3. A DPPC molecule in MolPainter added via New Molecule.*
 
 #### 4: Use Blends to get the right amount of CHOL on each side of the system
-MolPainter blends make it easy to paint areas of your system that are meant to achieve a particular molecular composition. In a blend each molecule has a weight that determines how likely it is to get drawn when you paint the blend. For example, to define the Blend to use for the left side of the system, which we will compose with 205 DPPC and 82 CHOL, we can use a blend where we simply set the weights of DPPC and CHOL to 205 and 82 (Figure 4). Then let’s make a second blend with weights of DIPC and CHOL at 205 and 20 for painting the right side.
+MolPainter blends make it easy to paint areas of your system that are meant to achieve a particular molecular composition. In a blend each molecule has a weight that determines how likely it is to get drawn when you paint the blend. To define the Blend to use for the left side of the system, we will make a blend using the *New Blend* button composed of 205 DPPC and 82 CHOL. To do that we can simply set the weights of DPPC and CHOL to 205 and 82 (Figure 4). Then let’s make a second blend with weights of DIPC and CHOL at 205 and 20 for painting the right side.
 
 ![Figure4](images/Figure4.png)</br>
 *Figure 4. A DPPC+CHOL blend in MolPainter added via New Blend.*
@@ -82,14 +82,16 @@ Great, our first layer is painted. Now let’s make a second layer to serve as t
 ![Figure6](images/Figure6.png)</br>
 *Figure 6. Adding a new layer.*
 
-#### 7: Load new instances of DPPC, DIPC, CHOL, flipping them, and also new instances of the Lo and Ld phase blends. Paint this new leaflet.
-Now we need to load conformations of DPPC, DIPC, and CHOL and have them flipped 180 degrees over the x-axis. We’ll color these light blue, red, and green. And then we’ll also make the similar blends as in previous steps to achieve the 205+82 DPPC+CHOL and 205+20 DIPC+CHOL ratios phases on the left and right halves of the system. To load and flip DPPC, for example, you just check the "Flip 180 degrees over x-axis" box. After you’ve finished loading everything, completing our palette of molecules for painting, paint the lower leaflet, and arrive at something like Figure 7..
+#### 7: Load or copy new instances of DPPC, DIPC, CHOL, flipping them, and also new instances of the Lo and Ld phase blends. Paint this new leaflet.
+Now we need to load conformations of DPPC, DIPC, and CHOL and have them flipped 180 degrees over the x-axis. We’ll color these light blue, red, and green. And then we’ll also make the similar blends as in previous steps to achieve the 205+82 DPPC+CHOL and 205+20 DIPC+CHOL ratios phases on the left and right halves of the system. To load and flip DPPC, for example, you provide the path to the PDB file in *New Molecule* and just check the "Flip 180 degrees over x-axis" box. You could also do this more quickly by copying an already existing molecule by right-clicking on it and selecting "Copy [molecule name]", and then checking the "Flip 180 degrees over the x-axis" box, too.
+
+After you’ve finished creating the flipped molecules and blends, paint the lower leaflet, and arrive at something like Figure 7.
 
 ![Figure7](images/Figure7.png)</br>
 *Figure 7. Editing properties for flipped DPPC molecule and displaying painted lower leaflet canvas.*
 
 #### 8: Save your work for later use.
-MolPainter has a JSON file format for saving and loading paintings and the corresponding palette of molecules. You can save using the *Save* button, giving a path to the file location. You can then load your work for later editing via the *Open* button. This makes it very easy to make small tweaks to the painting to accomplish tasks such as preparing new initial conditions with some randomization of the initial positions. The system built here is provided as "tutorial.json".
+MolPainter has a JSON file format for saving and loading paintings and the corresponding palette of molecules. You can save using the *Save Painting* button, giving a path to the file location. You can then load your work for later editing via the *Load Painting* button. This makes it very easy to make small tweaks to the painting to accomplish tasks such as preparing new initial conditions with some randomization of the initial positions. The system built here is provided as "tutorial.json".
 
 #### 9: Export the lipid bilayer on a hexagonal lattice.
 Let’s export the painting to a PDB structure of the lipid bilayer. Use the *Export* button, name the file, let’s say, "solute.pdb", and hit the radio button "Hexagonal lattice" to export this structure on a hexagonal lattice to the active directory. You could also export it to some other location via writing the path or browsing to it using the "Browse" button. This hexagonal lattice is defined by shifting every other column up on the y-axis by one half a cell length.
@@ -108,7 +110,7 @@ Nice.
 ### MolSolvator
 Now that we’ve got our lipid bilayer, let’s solvate it. We'll do this using MolSolvator, which was specifically designed for use with MolPainter in mind.
 
-Given there are 1024 molecules in the lipid bilayer, we’ll add 10,024 water particles. 10% of these must be the "anti-freeze" MARTINI particle, which employs very strong anti-freeze to normal water interactions to prevent anomalous freezing at ambient temperature. Thus we’ll insert 9022 normal "W" water particles and 1002 anti-freeze "WF" water particles. One straightforward way we can typically determine the number of ions is to divide the molar concentration of water, 55.5 M, by the molar concentration of ion, 0.150 M, to determine the waters per ion, 55.5 M / 0.150 M = 370. However, the MARTINI water effectively represents 4 waters, while the MARTINI ions still just represent one ion each. As such, we would have 92.5 waters per ion, 108 Na+ and 108 Cl-.
+Given there are 1024 molecules in the lipid bilayer, we’ll add 10,024 water particles. 10% of these must be the "anti-freeze" MARTINI particle, which employs very strong anti-freeze to normal water interactions to prevent anomalous freezing at ambient temperature. Thus we’ll insert 9022 normal "W" water particles and 1002 anti-freeze "WF" water particles. One straightforward way we can make a quick (over)estimation for the number of ions is to divide the molar concentration of water, 55.5 M, by the molar concentration of ion, 0.150 M, to determine the waters per ion, 55.5 M / 0.150 M = 370. However, the MARTINI water effectively represents 4 waters, while the MARTINI ions still just represent one ion each. As such, we would have 92.5 waters per ion, 108 Na+ and 108 Cl-.
 
 #### 1: Solvating the volume above the lipid bilayer
 
@@ -131,7 +133,7 @@ molsolvator -zeroz -i tutorial/solvate_below_membrane.toml
 *Figure 9. System after being solvated using MolSolvator.*
 
 ### Molecular Dynamics
-Now let's get this system running in GROMACS.
+Now let's get this system running in GROMACS. GROMACS 2020.5 was used in this tutorial.
 
 #### 1: Writing the topology file.
 GROMACS has a wonderfully easy way to input the force field parameters and any additional restraints via it’s topology file system. In short, rather than define the parameters for every individual copy of a molecule, GROMACS only needs to be told the parameters of each unique type molecule, defined by a "[ moleculetype ]".
