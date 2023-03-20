@@ -6,8 +6,8 @@
 - [Dependencies](#dependencies)
 - [Test Dependencies](#test-dependencies)
 - [Documentation](#documentation)
-- [MolPainter Tutorial](#molpainter-tutorial)
-- [Give it a try!](#give-it-a-try)
+- [Tutorial](#tutorial)
+- [What's new in 1.1?](#what's-new-in-1.1?)
 
 ## Introducing MolPainter and MolSolvator
 #### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
