@@ -15,7 +15,7 @@ class AboutDialog(tk.Frame):
         text_url = "For documentation, see\n{}\n\n".format(MolPainter.__url__)
         text_tutorial = "An end to end tutorial can be found at\n{}".format(MolPainter.__tutorial_url__)
         
-        self.about_text = tk.Text(self, width=60, height=7)
+        self.about_text = tk.Text(self, width=62, height=7)
         self.about_text.insert('end', text_header, ('header'))
         self.about_text.insert('end', text_url)
         self.about_text.insert('end', text_tutorial)
