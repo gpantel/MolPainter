@@ -39,6 +39,13 @@ MolPainter's GUI makes use of `tkinter` in order to provide a native interface o
 
 The additional package dependencies are `numpy`, `scipy`, `toml`, and `MDAnalysis`.
 
+### Test Dependencies
+
+Tests can be run with `pytest` from the root of the source tree:
+```
+python3 -m pytest
+```
+
 ## Documentation
 
 Descriptions of the objects and functions of MolPainter and MolSolvator are available [here](/docs/README.md)
