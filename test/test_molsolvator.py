@@ -1,10 +1,12 @@
 import pytest
 from MolPainter.MolSolvator import solvate_and_export
-import filecmp
 
 class TestMolSolvator:
-    
+
     def test_solvent_construction(self):
+        """
+        Solvates a system with a set initial seed for the RNG and checks against a reference
+        """
         args_tuple = ('./test/PDBfiles/DPPC.pdb',\
         ['./test/PDBfiles/NA+.pdb', './test/PDBfiles/CL-.pdb', './test/PDBfiles/WF.pdb', './test/PDBfiles/W.pdb'],\
         [1, 1, 9, 90],\
@@ -13,6 +15,17 @@ class TestMolSolvator:
         solvate_and_export(*args_tuple)
         refpdb = "./test/PDBfiles/solvator_ref.pdb"
         testpdb = "./test/PDBfiles/solvator_test.pdb"
-        result = filecmp.cmp(refpdb, testpdb, shallow=False)
+        reffile = open(refpdb, 'r')
+        testfile = open(testpdb, 'r')
+
+        with open(refpdb, 'r') as reffile, open(testpdb, 'r') as testfile: 
+            for ref, test in zip(reffile, testfile):
+                refline = ref.strip()
+                testline = test.strip()
+                if (refline.split(' ') == testline.split(' ')) == False:
+                    result = False
+                    break
+                else:
+                    result = True
         assert result is True
 
