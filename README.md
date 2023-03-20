@@ -6,8 +6,8 @@
 - [Dependencies](#dependencies)
 - [Test Dependencies](#test-dependencies)
 - [Documentation](#documentation)
-- [MolPainter Tutorial](#molpainter-tutorial)
-- [Give it a try!](#give-it-a-try)
+- [Tutorial](#tutorial)
+- [What's new in 1.1?](#whats-new-in-11)
 
 ## Introducing MolPainter and MolSolvator
 #### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
@@ -55,7 +55,7 @@ Descriptions of the objects and functions of MolPainter and MolSolvator are avai
 
 A tutorial demonstrating the major functions of MolPainter and MolSolvator on a complex mixture lipid bilayer is available [here](/docs/tutorial/README.md)
 
-## What's new in 1.1?
+### What's new in 1.1?
 
 **Solute** systems can now be added during a MolPainter session! These are systems in PDB format to which you want to *paint* using MolPainter while avoiding clashes.
 
