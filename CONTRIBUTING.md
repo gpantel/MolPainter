@@ -19,10 +19,10 @@ You can contact us
 
 * Open an issue
 * If MolPainter or MolSolvator experience an error please provide
-  ** The input PDB files you're using
-  ** The operating system you're working on
-  ** The parameters used for building the system
-** The version of MolPainter, MDAnalysis, and python
+  * The input PDB files you're using
+  * The operating system you're working on
+  * The parameters used for building the system
+* The version of MolPainter, MDAnalysis, and python
 
 # Let us promote your work using MolPainter!
 
