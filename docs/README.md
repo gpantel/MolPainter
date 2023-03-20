@@ -15,11 +15,11 @@ Systems in MolPainter are represented by one or more layers. Each layer is repre
 Each layer is characterized by a grid which serves as a "canvas" for (I) precise placement (painting) of molecules in space relative to other molecules and (II) the precise counting of molecules while painting the grid. Each cell in the grid is a square cell with a length given in angstroms, defined as the cell spacing (Figure 1.B). The width (X-axis) and the height (Y-axis) of the grid is defined by the number of cells in each dimension. It should be noted that the grid is only for relative spatial placement and that there is no representation of the underlying geometry of the molecules.
 
 ### Molecules
-Molecules are the primary input of the application and are configurable both in terms of how they are represented in the painting process and how they are generated in the exported system. For painting purposes, each molecule is assigned a name and a color, which serve to identify it among other molecules. Within each layer, the number and mol% of each molecule is tracked with a counter. This enables construction of a system with a desired amount or ratio of different molecule types.
+Molecules are the primary input of the application and are configurable both in terms of how they are represented in the painting process and how they are generated in the exported system. For painting purposes, each molecule is assigned a name and a color, which serve to identify it among other molecules. Within each layer, the number and mol% of each molecule is tracked with a counter. The mol% is a volume-independent measure of the relative quantity of chemical species in a system. Typically in lipid bilayers, which is the main application for MolPainter, mol% is used to measure the relative amount of lipids and other molecules in a layer. This enables construction of a system with a desired amount or ratio of different molecule types.
 
 For system construction (export) purposes, each molecule is associated with a PDB file and a set of optional rotational transformations to be applied during export. The PDB file is read during export and its entire contents are replicated for each instance (painted cell) of that molecule in the painting (Figure 1.C). The X and Y coordinates of the painted cell are determined by its placement in the grid; its Z coordinate is determined by the Z coordinate of the containing layer. When exporting, the X, Y, and Z coordinates of each molecule are translationally transformed to align with the X, Y, and Z coordinates of each painted cell.
 
-The coordinates of each molecule can be transformed by rotating 180$^\circ$ over the X-axis. This transformation is uniformly applied to each painted instance of the molecule type. The molecules can also be randomly rotated around the Z-axis. This transformation is applied with a new random value for each painted instance of the molecule type. The transformations can be used for such purposes as flipping lipids to form bilayers and randomly rotating the orientations of proteins in the XY-plane.
+The coordinates of each molecule can be transformed by rotating 180˚ over the X-axis. This transformation is uniformly applied to each painted instance of the molecule type. The molecules can also be randomly rotated around the Z-axis. This transformation is applied with a new random value for each painted instance of the molecule type. The transformations can be used for such purposes as flipping lipids to form bilayers and randomly rotating the orientations of proteins in the XY-plane.
 
 Upon exporting, the topological data from the PDB file of each molecule is employed to assign atom numbers and residue indices of each atom in the system, ordered by the appearance of each molecule type in the palette. The coordinates of the system can be exported in a square or hexagonal lattice, wherein the hexagonal lattice is defined by shifting Y-axial positions of cells in every other X-axial column up by one-half the cell spacing.
 
@@ -63,7 +63,7 @@ Solutes, such as large molecules that may be desirable to embed in layers of sma
 
 ### Usage
 
-Refer to the [tutorial](README.md) for a detailed example featuring the use of the functions of MolPainter
+Refer to the [tutorial](tutorial/README.md) for a detailed example featuring the use of the functions of MolPainter
 
 ## MolSolvator functions and usage
 
@@ -75,7 +75,7 @@ MolSolvator inserts molecules into the solvent cells in a quantity and using top
 
 ### MolSolvator Input Parameters
 
-The MolSolvator command line tool *molsolvator* is run with a handful of options. It is principally controlled via an input file which determines the dimensions of the XY-plane into which solvent will be placed based on dimensions and cell spacing of a corresponding MolPainter system grid, the solute lattice. Using the solute lattice, the solvent lattice of cells is defined using a cell spacing, buffer distance for obstructing neighbor cells, and the lower and upper bounds of the solvent lattice Z-dimension. The solvent molecules are defined by paths to each PDB file, number of molecules to be inserted, maximum number of iterations to attempt to insert each molecule, and an option to enable random three-dimensional rotation of each molecule prior to attempting insertion. These options are input with the \texttt{-i} flag in TOML format. There are additional options to center the system at (X,Y,Z) = (0,0,0) after solvation via the \texttt{-centerc} flag, or to translate the coordinates such that the minimum Z-dimensional position to one-half the solvent cell spacing via the \texttt{-zeroz} flag. The input file fields are as follows.
+The MolSolvator command line tool *molsolvator* is run with a handful of options. It is principally controlled via an input file which determines the dimensions of the XY-plane into which solvent will be placed based on dimensions and cell spacing of a corresponding MolPainter system grid, the solute lattice. Using the solute lattice, the solvent lattice of cells is defined using a cell spacing, buffer distance for obstructing neighbor cells, and the lower and upper bounds of the solvent lattice Z-dimension. The solvent molecules are defined by paths to each PDB file, number of molecules to be inserted, maximum number of iterations to attempt to insert each molecule, and an option to enable random three-dimensional rotation of each molecule prior to attempting insertion. These options are input with the *-i* flag in TOML format. There are additional options to center the system at (X,Y,Z) = (0,0,0) after solvation via the *-centerc* flag, or to translate the coordinates such that the minimum Z-dimensional position to one-half the solvent cell spacing via the *-zeroz* flag. The input file fields are as follows.
 
 * **solute** Path to a PDB file of the system to be solvated, prepared by MolPainter or otherwise.
 * **output** Path for the output system following solvation.
@@ -86,6 +86,6 @@ The MolSolvator command line tool *molsolvator* is run with a handful of options
  * **spacing** Cell spacing defining the solute system in angstroms.
 * **[solvent_molecules]**
   * **paths** Cell spacing defining the solvent cells in angstroms.
-  * **numbers** Number of each solvent given in \textbf{paths} to insert to solvent cells, in order.
+  * **numbers** Number of each solvent given in **paths** to insert to solvent cells, in order.
   * **max_iterations** Number of attempts to re-insert a molecule to available cells before aborting.
   * **rotate** "true" or "false" enabling three-dimensional rotation solvent molecules in each insertion attempt.
