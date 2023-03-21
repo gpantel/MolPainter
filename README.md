@@ -12,7 +12,7 @@
 ## Introducing MolPainter and MolSolvator
 #### Tools for building and solvating complex, planar molecular systems of arbitrary molecular composition and placement via painting.
 
-![Screenshot](docs/tutorial/images/TutorialFigure.png)
+![Screenshot](https://github.com/gpantel/MolPainter/blob/master/docs/tutorial/images/TutorialFigure.png)
 
 MolPainter is a novel graphical tool that enables users to specifically define the location of molecules in multi-layered, planar molecular systems. MolPainter achieves this by treating each plane of a hypothetical molecular system, defined by a z-axial position, as a two dimensional grids which serve as canvases. By associating molecular structures (in PDB format) to colors, these canvases can be painted to precisely define molecular environments.
 
@@ -49,11 +49,11 @@ python3 -m pytest
 
 ### Documentation
 
-Descriptions of the objects and functions of MolPainter and MolSolvator are available [here](/docs/README.md)
+Descriptions of the objects and functions of MolPainter and MolSolvator are available [here](https://github.com/gpantel/MolPainter/blob/master/docs/README.md)
 
 ### Tutorial
 
-A tutorial demonstrating the major functions of MolPainter and MolSolvator on a complex mixture lipid bilayer is available [here](/docs/tutorial/README.md)
+A tutorial demonstrating the major functions of MolPainter and MolSolvator on a complex mixture lipid bilayer is available [here](https://github.com/gpantel/MolPainter/blob/master/docs/tutorial/README.md)
 
 ### What's new in 1.1?
 
