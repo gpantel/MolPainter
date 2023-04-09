@@ -52,7 +52,7 @@ class Exporter(tk.Frame):
         self.statuslabel.grid(row=3, column=0, columnspan=5, padx=2, pady=4)
 
         self.master.bind('<Return>', self.return_event)
-        self.lattice_spacing = self.project.lattice_spacing
+        self.system_exporter = SystemExporter()
 
     def file_select_action(self):
         self.exportfilevar.set(filedialog.asksaveasfilename(initialdir = "./",title = "Select file",filetypes = (("PDB file","*.pdb"),("all files","*.*"))))
@@ -70,14 +70,24 @@ class Exporter(tk.Frame):
     def start_export(self):
         self.statuslabel["text"] = "Export status: started..."
         try:
-            self.export_system()
+            self.system_exporter.export_system(self.project, self.exportfilevar.get(), self.lattice_choice.get())
+            self.statuslabel["text"] += "\nOutput saved as {}".format(self.exportfilevar.get())
         except Exception as e:
             self.statuslabel["text"] += " failed\n{}".format(e)
 
         self.ok_button["state"] = "normal"
         self.statuslabel["text"] += "\nStopped."
 
-    def export_system(self):    
+
+class SystemExporter():
+    """
+    This class contains the logic to actually export the system to a file.
+    """
+    def export_system(self, project, destfile, lattice_type):
+        self.project = project
+        self.lattice_spacing = self.project.lattice_spacing
+        self.destfile = destfile
+        self.lattice_type = lattice_type
         layers = []
         if self.project.import_solute != None:
             layers.append(self.project.solute.atoms)
@@ -85,7 +95,6 @@ class Exporter(tk.Frame):
             layers.append(self.constructionate_layer(self.project.layers[i]))
         layer = mda.Merge(*layers)
         # assign x and y dimensions to the box. The z-dimension will equal the smaller of the two.
-        self.lattice_spacing = self.project.lattice_spacing
         x = (self.project.lattice_width*self.lattice_spacing)
         y = (self.project.lattice_height*self.lattice_spacing)
         # add 1 more lattice_spacing to each dimensions -- if one dim. is longer, add more
@@ -102,18 +111,16 @@ class Exporter(tk.Frame):
         layer.dimensions = np.array([x, y, np.amin([x,y]), 90., 90., 90.])
         # numer all residue IDs from 1 up to the number of molecules
         layer.residues.resids = np.arange(1,layer.residues.n_residues+1)
-        destfile = self.exportfilevar.get()
         # Do not print typically benign warnings from MDAnalysis about setting defaults
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            layer.atoms.write(destfile)
-        self.statuslabel["text"] += "\nOutput saved as {}".format(destfile)
+            layer.atoms.write(self.destfile)
         return
 
     def constructionate_layer(self, layer):
-        if self.lattice_choice.get() == "Square":
+        if self.lattice_type == "Square":
             lattice_xy_coordinates = self.map_lattice_to_xy_squares()
-        elif self.lattice_choice.get() == "Hexagon":
+        elif self.lattice_type == "Hexagon":
             lattice_xy_coordinates = self.map_lattice_to_xy_hexagons()
 
         all_pdb_molecule_groups = []
@@ -128,7 +135,7 @@ class Exporter(tk.Frame):
             if path == None: 
                 continue
             if os.path.dirname(path) == '':
-                path = os.path.join(os.path.dirname(self.projfilevar.get()), path)
+                path = os.path.join(os.path.dirname(self.destfile), path)
             if not os.path.exists(path):
                 continue
             # Do not print typically benign warnings from MDAnalysis about setting defaults
