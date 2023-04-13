@@ -72,3 +72,7 @@ The new *Insert Solutes* button has the following fields
 * **Center solute at z (Å)** centers the (x,y,z) coordinates of the solute to the center of the MolPainter grid at a particular plane in the z-dimension.
 * **Expand grid to fit solute** expands the MolPainter grid to fit the (x,y,z) coordinates of the solute system. If the solute system has negative coordinates, these coordinates will still lay outside of the MolPainter canvases!
 
+### Let us promote your work using MolPainter!
+
+* Please reach out to us and let us know about the cool work you've done!
+* We would like to promote interesting systems constructed using MolPainter.
