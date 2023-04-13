@@ -89,3 +89,4 @@ The MolSolvator command line tool *molsolvator* is run with a handful of options
   * **numbers** Number of each solvent given in **paths** to insert to solvent cells, in order.
   * **max_iterations** Number of attempts to re-insert a molecule to available cells before aborting.
   * **rotate** "true" or "false" enabling three-dimensional rotation solvent molecules in each insertion attempt.
+  * **seed** Optionally set the random seed

@@ -204,7 +204,9 @@ def parse_and_initialize():
             raise Exception('The input file %s does not exist'%inputs['solvent_molecules']['paths'][i])
     if 'seed' in inputs['solvent_molecules']:
         seed = inputs['solvent_molecules']['seed']
-    
+    else:
+        seed = None
+
     # 1) Define lattice_width and lattice_height coming from the canvas
     lattice_width = inputs['solute_lattice']['width'] # e.g. 32 angstroms
     lattice_height = inputs['solute_lattice']['height'] # e.g. 16 angstroms
