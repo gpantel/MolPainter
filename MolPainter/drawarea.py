@@ -30,8 +30,8 @@ class Drawarea(tk.Frame):
         self.tabs = ttk.Notebook(self)
         self.tabs.grid(column=0, row=0)
         self.layers = []
-        self.zoomvalues = [5, 7, 10, 15, 20]
-        self.zoom = 2
+        self.zoomvalues = [3, 5, 7, 10, 15, 20, 25, 30, 35, 40]
+        self.zoom = 3
 
         self.tool = 'pencil'
 

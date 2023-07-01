@@ -41,7 +41,7 @@ class LayerConfigurator(tk.Frame):
 
     def ok_action(self):
         try:
-            int(self.depthvar.get())
+            float(self.depthvar.get())
         except ValueError:
             self.lbl3["text"] = "The z position must be a number"
             return

@@ -2,6 +2,7 @@ import json
 import random
 import numpy as np
 import MDAnalysis as mda
+import warnings
 
 
 class ZLayer():
@@ -252,7 +253,9 @@ class Project():
         Import a solute into the project. Expands the lattice if needed.
         """
         if self.import_solute is not None:
-            self.solute = mda.Universe(self.import_solute)
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                self.solute = mda.Universe(self.import_solute)
         else:
             return
 

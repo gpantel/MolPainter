@@ -281,14 +281,14 @@ class Commands:
         """
         if self.layeraction.get() == "create":
             self.newlayer.name = self.layername.get()
-            self.newlayer.zdepth = int(self.layerdepth.get())
+            self.newlayer.zdepth = float(self.layerdepth.get())
             self.project.add_layer(self.newlayer)
             self.gui.layer_created(self.newlayer)
             self.layer_settings = None
             self.newlayer = None
         elif self.layeraction.get() == "modify":
             self.newlayer.name = self.layername.get()
-            self.newlayer.zdepth = int(self.layerdepth.get())
+            self.newlayer.zdepth = float(self.layerdepth.get())
             self.gui.layer_modified(self.newlayer)
             self.layer_settings = None
             self.newlayer = None
